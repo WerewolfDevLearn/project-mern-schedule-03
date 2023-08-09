@@ -13,10 +13,11 @@ router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 router.post('/logout', authenticate, ctrl.logout);
 router.get('/current', authenticate, ctrl.getCurrent);
 router.post('/verify', validateBody(schemas.verifyEmailSchema), ctrl.verifyEmail);
-router.patch('/avatar', authenticate, uploadAvatar, ctrl.updateAvatar);
+// router.patch('/avatar', authenticate, uploadAvatar, ctrl.updateAvatar);
 router.patch(
   '/profile',
   authenticate,
+  uploadAvatar,
   validateBody(schemas.updateProfileShema),
   ctrl.updateProfile
 );
