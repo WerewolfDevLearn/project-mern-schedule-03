@@ -13,13 +13,28 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const updateProfileShema = Joi.object({
+  name: Joi.string().alphanum().min(4).required(),
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
+  password: Joi.string().min(6).required(),
+  phone: Joi.string().allow(null).allow('').optional(),
+  birthday: Joi.string().allow(null).allow('').optional(),
+  skype: Joi.string().allow(null).allow('').optional(),
+});
+
 const verifyEmailSchema = Joi.object({
   email: Joi.string().pattern(regExp.email).required().error(joiError.email),
   verificationCode: Joi.string().required(),
 });
 
+const sendVerificationEmailSchema = Joi.object({
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
+  updateProfileShema,
   verifyEmailSchema,
+  sendVerificationEmailSchema,
 };
