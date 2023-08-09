@@ -7,7 +7,7 @@ const tasksRouter = require('./tasks');
 const router = Router();
 
 router.use('/users', usersRouter);
-router.use('./reviews', reviewsRouter);
-router.use('./tasks', tasksRouter);
+router.use('/reviews', reviewsRouter);
+router.use('/tasks', tasksRouter);
 
 module.exports = router;

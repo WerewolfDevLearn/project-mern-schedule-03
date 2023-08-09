@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>verification</title>
+</head>
+
+<body style="padding: 3vh 5vw; background-color: #ededed;">
+  <div style="padding: 1vh 3vw; background-color: white; border-radius: 10px;">
+    <h2>
+      Action Required: Verify Your Email
+    </h2>
+
+    <p>
+      You are receiving this email because
+      <b>
+        <%= to %>
+      </b>
+      has not been verified. <br>
+      Please navigate to
+      <a href="https://qweasd123/" target="_blank" rel="noopener noreferrer">
+        https://qweasd123
+      </a> to enter the following code for verification:
+    </p>
+    <h3 style="text-align: center;">
+      <%= verificationCode %>
+    </h3>
+
+    <ul>
+      <li>If after clicking the link does not work, copy it and paste it into the window browser.</li>
+      <li>If the link fails to follow, please use the
+        <b>
+          <%= APP_NAME %>
+        </b>
+        website to contact us.
+      </li>
+      <li>If you do not confirm this request, no further action is required.</li>
+    </ul>
+
+    <p>Best, <br>
+      the <%= APP_NAME %> team</p>
+  </div>
+
+  <p style="padding: 1vh 3vw; color: grey;">This email tells you about important changes to your account.</p>
+</body>
+
+</html>
