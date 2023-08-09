@@ -1,7 +1,4 @@
-
-const { registerSchema, loginSchema, verifyEmailSchema } = require('./user');
 const { reveiwSchema, updateReveiwSchema } = require('./review');
-
 const {
   registerSchema,
   loginSchema,
@@ -21,5 +18,4 @@ module.exports = {
   updateProfileShema,
   verifyEmailSchema,
   sendVerificationEmailSchema,
-
 };
