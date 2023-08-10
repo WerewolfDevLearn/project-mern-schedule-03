@@ -29,6 +29,7 @@ const login = ctrlWrapper(async (req, res) => {
       birthday: returntUser.birthday,
       avatarUrl: returntUser.avatarUrl,
       _id: returntUser._id,
+      verifiedEmail: returntUser.verifiedEmail,
     },
   });
 });
