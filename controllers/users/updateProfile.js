@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-const User = require('../../models/User');
+const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
 const { cloudinary, HttpError } = require('../../utils');
 
@@ -12,6 +12,7 @@ const updateProfile = ctrlWrapper(async (req, res) => {
   if (req.file) {
     const { avatarId } = req.user;
     if (avatarId) await cloudinary.destroy(avatarId);
+    // eslint-disable-next-line camelcase
     const { url, public_id } = await cloudinary.upload(req.file.path);
     avatarUrl = url;
 
