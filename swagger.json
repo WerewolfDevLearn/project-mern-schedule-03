@@ -57,7 +57,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operations",
             "content": {
               "application/json": {
