@@ -15,7 +15,7 @@ const login = ctrlWrapper(async (req, res) => {
     throw HttpError(401, `Email not verified, check ${email}!`);
   }
 
-  const isMatch = bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw HttpError(401);
   const payload = { id: user._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });

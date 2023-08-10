@@ -6,7 +6,7 @@ const renderEjsTemplate = (file, data) => {
   let html = 'There should be HTML markup!';
 
   ejs.renderFile(file, data, (error, markup) => {
-    if (error) throw new HttpError(500, error.message);
+    if (error) throw HttpError(500, error.message);
     html = markup;
   });
   return html;
