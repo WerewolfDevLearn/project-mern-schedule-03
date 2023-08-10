@@ -8,7 +8,6 @@ const { authenticate, upload } = require('../../middlewares');
 const router = Router();
 const uploadAvatar = upload.single('avatar');
 
-
 router.post('/register', validateBody(schemas.registerSchema), ctrl.register);
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 router.post('/logout', authenticate, ctrl.logout);
