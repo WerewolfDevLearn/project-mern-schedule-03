@@ -5,6 +5,7 @@ const cloudinary = require('./cloudinary');
 const sendEmail = require('./sendEmail');
 const joiError = require('./joiError');
 const renderEjsTemplate = require('./renderEjsTemplate');
+const formatDate = require('./formatDate');
 
 module.exports = {
   HttpError,
@@ -14,4 +15,5 @@ module.exports = {
   cloudinary,
   joiError,
   renderEjsTemplate,
+  formatDate,
 };

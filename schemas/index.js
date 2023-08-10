@@ -1,4 +1,6 @@
 const { reveiwSchema, updateReveiwSchema } = require('./review');
+const validTask = require('./task');
+
 const {
   registerSchema,
   loginSchema,
@@ -16,6 +18,6 @@ module.exports = {
   updateReveiwSchema,
 
   updateProfileShema,
-  verifyEmailSchema,
+  validTask,
   sendVerificationEmailSchema,
 };
