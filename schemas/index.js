@@ -1,6 +1,5 @@
-
-const { registerSchema, loginSchema, verifyEmailSchema } = require('./user');
 const { reveiwSchema, updateReveiwSchema } = require('./review');
+const validTask = require('./task');
 
 const {
   registerSchema,
@@ -19,7 +18,6 @@ module.exports = {
   updateReveiwSchema,
 
   updateProfileShema,
-  verifyEmailSchema,
+  validTask,
   sendVerificationEmailSchema,
-
 };
