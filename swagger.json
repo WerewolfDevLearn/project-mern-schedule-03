@@ -9,14 +9,14 @@
   "produces": ["application/json"],
   "servers": [{ "url": "http://localhost:8080" }],
   "tags": [
-    { "name": "Auth", "description": "Auth endpoints" },
+    { "name": "Users", "description": "Users endpoints" },
     { "name": "Reviews", "description": "Reviews endpoints" },
     { "name": "Tasks", "description": "Tasks endpoints" }
   ],
   "paths": {
-    "/auth/register": {
+    "/users/register": {
       "post": {
-        "tags": ["Auth"],
+        "tags": ["Users"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -37,6 +37,39 @@
           },
           "400": {
             "description": "Bad request (invalid request body)"
+          },
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Logs user into the system",
+        "parameters": [],
+        "requestBody": {
+          "description": "Object for login user in system",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RegistrationResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorised"
           },
           "409": {
             "description": "Provided email already exists"
@@ -89,6 +122,23 @@
             "type": "boolean",
             "description": "User's email is verifyed",
             "example": "www.avatar.com/avatar/12345678"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "email": { "type": "string", "description": "User's email", "format": "email" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
+          "user": {
+            "$ref": "#/components/schemas/User"
           }
         }
       }
