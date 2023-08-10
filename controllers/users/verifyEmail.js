@@ -3,9 +3,9 @@ const { ctrlWrapper } = require('../../decorators');
 const { HttpError } = require('../../utils');
 
 const verifyEmail = ctrlWrapper(async (req, res) => {
-  const { email, verificationCode } = req.body;
+  const { verificationCode } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ verificationCode });
   if (!user) throw HttpError(401);
   if (user.verifiedEmail) throw HttpError(400, 'Email already verified');
   if (user.verificationCode !== verificationCode) throw HttpError(401);
@@ -17,7 +17,7 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   );
   if (!newUser) throw HttpError(404);
 
-  res.status(200).json({ message: `Email ${email} verified successfully.` });
+  res.status(200).json({ message: `Email ${user.email} verified successfully.` });
 });
 
 module.exports = verifyEmail;

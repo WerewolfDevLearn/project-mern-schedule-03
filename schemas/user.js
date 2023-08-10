@@ -24,7 +24,6 @@ const updateProfileShema = Joi.object({
 });
 
 const verifyEmailSchema = Joi.object({
-  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
   verificationCode: Joi.string().required(),
 });
 
