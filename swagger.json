@@ -1,0 +1,104 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.1",
+    "title": "UpperCode project",
+    "discription": "Best documentation of best developer team"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:8080" }],
+  "tags": [
+    { "name": "Auth", "description": "Auth endpoints" },
+    { "name": "Reviews", "description": "Reviews endpoints" },
+    { "name": "Tasks", "description": "Tasks endpoints" }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RegistrationRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RegistrationResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "email": { "type": "string", "description": "User's email", "format": "email" }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "12345678"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "www.avatar.com/avatar/12345678"
+          }
+        }
+      }
+    },
+    "securitySchemas": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
