@@ -7,7 +7,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:8080" }],
+  "servers": [{ "url": "http://localhost:8080/api" }],
   "tags": [
     { "name": "Users", "description": "Users endpoints" },
     { "name": "Reviews", "description": "Reviews endpoints" },
@@ -76,6 +76,62 @@
           }
         }
       }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Logout user into the system",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": { "type": "string", "example": "Logged out" }
+            }
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get info of current user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetCurrentUserResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Deleting current user with all his data",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User user@email.com deleted!, tasks deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -125,6 +181,39 @@
           }
         }
       },
+      "CurrentUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "12345678"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          }
+        }
+      },
       "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
@@ -140,6 +229,12 @@
           "user": {
             "$ref": "#/components/schemas/User"
           }
+        }
+      },
+      "GetCurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": { "$ref": "#/components/schemas/CurrentUser" }
         }
       }
     },
