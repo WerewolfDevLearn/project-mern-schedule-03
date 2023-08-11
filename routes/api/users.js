@@ -12,9 +12,8 @@ router.post('/register', validateBody(schemas.registerSchema), ctrl.register);
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 router.post('/logout', authenticate, ctrl.logout);
 router.get('/current', authenticate, ctrl.getCurrent);
+router.delete('/current', authenticate, ctrl.deleteCurrent);
 router.post('/verify', validateBody(schemas.verifyEmailSchema), ctrl.verifyEmail);
-// router.patch('/avatar', authenticate, uploadAvatar, ctrl.updateAvatar);
-
 router.patch(
   '/profile',
   authenticate,
