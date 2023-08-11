@@ -19,7 +19,7 @@ const login = ctrlWrapper(async (req, res) => {
   if (!isMatch) throw HttpError(401);
   const payload = { id: user._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
-  const returntUser = await User.findByIdAndUpdate(user._id, { token });
+  const returntUser = await User.findByIdAndUpdate(user._id, { token }, { new: true });
   res.status(200).json({
     token,
     user: {
