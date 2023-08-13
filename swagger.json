@@ -349,12 +349,122 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/GetAllTasksResponse" }
+                "schema": { "$ref": "#/components/schemas/GetAllReview" }
               }
             }
           },
           "404": {
             "description": "Not found reviews"
+          }
+        }
+      }
+    },
+    "/reviews/own": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get reviews created by the current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Review" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing owner"
+          },
+          "404": {
+            "description": "Not found reviews"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Adds review by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for add user review",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Review" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddReviewResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request'"
+          },
+          "409": {
+            "description": "Review from you already exists"
+          },
+          "500": {
+            "description": "Failed to create a review"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Updates review by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for update user review",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Review" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateReviewResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request'"
+          },
+          "404": {
+            "description": "Review not found for update"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Review deleted successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing owner"
+          },
+          "404": {
+            "description": "Review not found for delete"
           }
         }
       }
@@ -508,8 +618,35 @@
       "GetAllReview": {
         "type": "object",
         "properties": {
-          "reviews": { "type": "object", "properties": { "$ref": "#/components/schemas/Rewiew" } },
-          "totalRewiews": { "type": "integer", "example": "10" }
+          "reviews": { "$ref": "#/components/schemas/Review" },
+          "totalRewiews": { "type": "integer", "example": "10" },
+          "totalPages": { "type": "integer", "example": "2" },
+          "currentPage": { "type": "integer", "example": "1" },
+          "limit": { "type": "integer", "example": "5" }
+        }
+      },
+      "AddReviewResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review added successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Review"
+          }
+        }
+      },
+      "UpdateReviewResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review edited successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Review"
+          }
         }
       },
       "User": {
@@ -559,10 +696,10 @@
           }
         }
       },
-      "Rewiew": {
+      "Review": {
         "type": "object",
         "properties": {
-          "raiting": { "type": "integer", "exapple": "Integer nгmber from 0 to 5" },
+          "raiting": { "type": "integer", "exapple": "0" },
           "comment": { "type": "string", "example": "Some text of review" }
         }
       }
