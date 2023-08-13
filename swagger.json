@@ -191,7 +191,38 @@
       "get": {
         "tags": ["Tasks"],
         "summary": "Get all user's tasks",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Year of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Month of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "day",
+            "in": "query",
+            "description": "Day of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -240,25 +271,24 @@
         }
       }
     },
-    "/tasks/:id": {
-      "post": {
+    "/tasks/{id}": {
+      "patch": {
         "tags": ["Tasks"],
-        "summary": "Adds task",
+        "summary": "Update task",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of task that needs to be updated task",
+            "description": "ID of task that needs to be updated",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
-          "description": "Object for add user task",
+          "description": "Object for update task",
           "required": true,
           "content": {
             "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
@@ -277,7 +307,7 @@
             "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' "
           },
           "404": {
-            "description": "Review not found for update"
+            "description": "Task not found for update"
           }
         }
       },
@@ -291,8 +321,7 @@
             "description": "ID of task that needs to be deleted task",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           }
         ],
