@@ -171,25 +171,45 @@
       }
     },
     "/users/profile": {
-      "tags": ["Users"],
-      "summary": "Updates email, password, or avatar of the user",
-      "parameters": [],
-      "security": [{ "Bearer": [] }],
-      "requestBody": {
-        "description": "Object for update user's profile",
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Updates email, password, or avatar of the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for update user's profile",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
+            }
           }
         }
       }
     },
     "/tasks/": {
-      "tags": ["Tasks"],
-      "summary": "Get all user's tasks",
-      "parameters": [],
-      "security": [{ "Bearer": [] }]
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all user's tasks",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetAllTasksResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Wrong month. Min - 1, max - 12' or 'Missing owner' or 'Missing year or month' "
+          },
+          "500": {
+            "description": "Failed to fetch tasks"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -201,42 +221,6 @@
           "name": { "type": "string", "description": "User's name", "example": "Name" },
           "password": { "type": "string", "description": "User's password", "example": "qwerty" },
           "email": { "type": "string", "description": "User's email", "format": "email" }
-        }
-      },
-      "RegistrationResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
-          }
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "name": { "type": "string", "description": "User's name", "example": "Name" },
-          "email": { "type": "string", "description": "User's email", "format": "email" },
-          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
-          "birthday": {
-            "type": "string",
-            "description": "User's birthday",
-            "example": "Birthday"
-          },
-          "avatarUrl": {
-            "type": "string",
-            "description": "User's avatar",
-            "example": "www.avatar.com/avatar/12345678"
-          },
-          "_id": {
-            "type": "string",
-            "description": "User's ID",
-            "example": "12345678"
-          },
-          "verifiedEmail": {
-            "type": "boolean",
-            "description": "User's email is verifyed",
-            "example": "www.avatar.com/avatar/12345678"
-          }
         }
       },
       "CurrentUser": {
@@ -281,7 +265,7 @@
         }
       },
       "UpdateProfileRequest": {
-        "type": "string",
+        "type": "object",
         "required": ["email", "name"],
         "properties": {
           "name": { "type": "string", "description": "User's name", "format": "User" },
@@ -315,6 +299,14 @@
           }
         }
       },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -328,6 +320,64 @@
         "type": "object",
         "properties": {
           "user": { "$ref": "#/components/schemas/CurrentUser" }
+        }
+      },
+      "GetAllTasksResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Get all tasks for the month ${month} ${year}"
+          },
+          "tasks": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } },
+          "tasksByDay": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "12345678"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "www.avatar.com/avatar/12345678"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Task's title", "example": "Task #1" },
+          "start": { "type": "string", "description": "Task's start time", "example": "hh:mm" },
+          "end": { "type": "string", "description": "Task's end time", "example": "hh:mm" },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "example": "'low', 'medium' or 'high'"
+          },
+          "date": { "type": "string", "description": "Task's date", "example": "YYYY-MM-DD" },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "example": "'to-do', 'in-progress' or 'done'"
+          }
         }
       }
     },
