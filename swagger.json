@@ -61,7 +61,7 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RegistrationResponse" }
+                "schema": { "$ref": "#/components/schemas/LoginResponse" }
               }
             }
           },
@@ -606,6 +606,7 @@
       "GetCurrentUserResponse": {
         "type": "object",
         "properties": {
+          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
           "user": { "$ref": "#/components/schemas/CurrentUser" }
         }
       },
