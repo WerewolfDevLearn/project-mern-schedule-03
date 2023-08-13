@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.3",
   "info": {
     "version": "1.0.1",
     "title": "UpperCode project",
@@ -82,6 +82,7 @@
         "tags": ["Users"],
         "summary": "Logout user into the system",
         "parameters": [],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operations",
@@ -97,6 +98,7 @@
         "tags": ["Users"],
         "summary": "Get info of current user",
         "parameters": [],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operations",
@@ -115,6 +117,7 @@
         "tags": ["Users"],
         "summary": "Deleting current user with all his data",
         "parameters": [],
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operations",
@@ -132,6 +135,61 @@
           }
         }
       }
+    },
+    "/users/verify": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyEmailRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "type": "string",
+                "example": "Email user@mail.com verified successfully."
+              }
+            }
+          },
+          "400": {
+            "description": "Email already verified"
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "tags": ["Users"],
+      "summary": "Updates email, password, or avatar of the user",
+      "parameters": [],
+      "security": [{ "Bearer": [] }],
+      "requestBody": {
+        "description": "Object for update user's profile",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
+          }
+        }
+      }
+    },
+    "/tasks/": {
+      "tags": ["Tasks"],
+      "summary": "Get all user's tasks",
+      "parameters": [],
+      "security": [{ "Bearer": [] }]
     }
   },
   "components": {
@@ -222,6 +280,41 @@
           "email": { "type": "string", "description": "User's email", "format": "email" }
         }
       },
+      "UpdateProfileRequest": {
+        "type": "string",
+        "required": ["email", "name"],
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "format": "User" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          },
+          "verificationCode": {
+            "type": "boolean",
+            "description": "User's verificationCode",
+            "example": "qwertyuiop"
+          }
+        }
+      },
+      "VerifyEmailRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Verification emailr password",
+            "example": "qwerty"
+          }
+        }
+      },
       "LoginResponse": {
         "type": "object",
         "properties": {
@@ -238,7 +331,7 @@
         }
       }
     },
-    "securitySchemas": {
+    "securitySchemes": {
       "Bearer": {
         "type": "http",
         "scheme": "bearer",
