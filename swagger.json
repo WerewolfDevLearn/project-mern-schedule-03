@@ -1,0 +1,745 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.1",
+    "title": "UpperCode project",
+    "discription": "Best documentation of best developer team"
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "http://localhost:8080/api" }],
+  "tags": [
+    { "name": "Users", "description": "Users endpoints" },
+    { "name": "Tasks", "description": "Tasks endpoints" },
+    { "name": "Reviews", "description": "Reviews endpoints" }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RegistrationRequest" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RegistrationResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Logs user into the system",
+        "parameters": [],
+        "requestBody": {
+          "description": "Object for login user in system",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/LoginRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)"
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "409": {
+            "description": "Provided email already exists"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Logout user into the system",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": { "type": "string", "example": "Logged out" }
+            }
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get info of current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetCurrentUserResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Deleting current user with all his data",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "User user@email.com deleted!, tasks deleted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/verify": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyEmailRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "type": "string",
+                "example": "Email user@mail.com verified successfully."
+              }
+            }
+          },
+          "400": {
+            "description": "Email already verified"
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Updates email, password, or avatar of the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for update user's profile",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get all user's tasks",
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Year of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "Month of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "day",
+            "in": "query",
+            "description": "Day of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetAllTasksResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Wrong month. Min - 1, max - 12' or 'Missing owner' or 'Missing year or month' "
+          },
+          "500": {
+            "description": "Failed to fetch tasks"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Adds task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for add task",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddTaskResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request' or 'END time must be greater than START time.' "
+          },
+          "500": {
+            "description": "Failed to create a task"
+          }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for update task",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateTaskResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' "
+          },
+          "404": {
+            "description": "Task not found for update"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete task",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task that needs to be deleted task",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Task deleted successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing owner"
+          },
+          "404": {
+            "description": "Task not found for delete"
+          }
+        }
+      }
+    },
+    "reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get all reviews",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Number of page of review's list",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items of reviews on the page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GetAllReview" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found reviews"
+          }
+        }
+      }
+    },
+    "/reviews/own": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get reviews created by the current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Review" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing owner"
+          },
+          "404": {
+            "description": "Not found reviews"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Adds review by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for add user review",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Review" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AddReviewResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request'"
+          },
+          "409": {
+            "description": "Review from you already exists"
+          },
+          "500": {
+            "description": "Failed to create a review"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Updates review by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for update user review",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Review" } }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateReviewResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "'Missing owner' or 'Missing body of request'"
+          },
+          "404": {
+            "description": "Review not found for update"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "Review deleted successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing owner"
+          },
+          "404": {
+            "description": "Review not found for delete"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "email": { "type": "string", "description": "User's email", "format": "email" }
+        }
+      },
+      "CurrentUser": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "12345678"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "email": { "type": "string", "description": "User's email", "format": "email" }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "required": ["email", "name"],
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "format": "User" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          },
+          "verificationCode": {
+            "type": "boolean",
+            "description": "User's verificationCode",
+            "example": "qwertyuiop"
+          }
+        }
+      },
+      "VerifyEmailRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Verification emailr password",
+            "example": "qwerty"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "GetCurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
+          "user": { "$ref": "#/components/schemas/CurrentUser" }
+        }
+      },
+      "GetAllTasksResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Get all tasks for the month (currentMonth) (currentDay)"
+          },
+          "tasks": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } },
+          "tasksByDay": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } }
+        }
+      },
+      "AddTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Task added successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Task"
+          }
+        }
+      },
+      "UpdateTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review edited successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Task"
+          }
+        }
+      },
+      "GetAllReview": {
+        "type": "object",
+        "properties": {
+          "reviews": { "$ref": "#/components/schemas/Review" },
+          "totalRewiews": { "type": "integer", "example": "10" },
+          "totalPages": { "type": "integer", "example": "2" },
+          "currentPage": { "type": "integer", "example": "1" },
+          "limit": { "type": "integer", "example": "5" }
+        }
+      },
+      "AddReviewResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review added successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Review"
+          }
+        }
+      },
+      "UpdateReviewResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review edited successfully"
+          },
+          "task": {
+            "$ref": "#/components/schemas/Review"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "www.avatar.com/avatar/12345678"
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "12345678"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "www.avatar.com/avatar/12345678"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Task's title", "example": "Task #1" },
+          "start": { "type": "string", "description": "Task's start time", "example": "hh:mm" },
+          "end": { "type": "string", "description": "Task's end time", "example": "hh:mm" },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "example": "'low', 'medium' or 'high'"
+          },
+          "date": { "type": "string", "description": "Task's date", "example": "YYYY-MM-DD" },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "example": "'to-do', 'in-progress' or 'done'"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "raiting": { "type": "integer", "exapple": "0" },
+          "comment": { "type": "string", "example": "Some text of review" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
