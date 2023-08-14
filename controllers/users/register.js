@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const gravatar = require('gravatar');
 const crypto = require('crypto');
 
 const User = require('../../models/user');
@@ -13,7 +12,7 @@ const register = ctrlWrapper(async (req, res) => {
   if (await User.findOne({ email })) throw HttpError(409);
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarUrl = gravatar.url(email);
+  const avatarUrl = '';
   const verificationCode = crypto.randomUUID();
 
   await sendEmail(email, verificationCode);
