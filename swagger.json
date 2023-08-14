@@ -7,7 +7,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:8080/api" }],
+  "servers": [{ "url": "https://project-mern-schedule-03.onrender.com/api-docs" }],
   "tags": [
     { "name": "Users", "description": "Users endpoints" },
     { "name": "Tasks", "description": "Tasks endpoints" },
