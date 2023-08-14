@@ -18,8 +18,9 @@ const updateProfile = ctrlWrapper(async (req, res) => {
     const { url, public_id } = await cloudinary.upload(req.file.path);
     // avatarUrl = url;
 
-    const avatar = { avatarUrl: url, avatarId: public_id };
-    existingUser.avatar = avatar;
+    // const avatar = { avatarUrl: url, avatarId: public_id };
+    existingUser.avatarUrl = url;
+    existingUser.avatarId = public_id;
     // const newUser = await User.findByIdAndUpdate(req.user._id, avatar);
     // if (!newUser) throw HttpError(404);
   }
