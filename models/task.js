@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const handleMongooseError = require('../utils/mongooseError');
-const formatDate = require('../utils/formatDate');
+const formatDate = require('../utils');
+const { PRIORITY_ENUM, CATEGORY_ENUM } = require('../utils');
 
 const taskSchema = new Schema(
   {
@@ -21,7 +22,7 @@ const taskSchema = new Schema(
     },
     priority: {
       type: String,
-      enum: ['low', 'medium', 'high'],
+      enum: PRIORITY_ENUM,
       default: 'low',
       trim: true,
       required: true,
@@ -33,7 +34,7 @@ const taskSchema = new Schema(
     },
     category: {
       type: String,
-      enum: ['to-do', 'in-progress', 'done'],
+      enum: CATEGORY_ENUM,
       default: 'to-do',
       trim: true,
       required: true,

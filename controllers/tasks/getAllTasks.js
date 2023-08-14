@@ -23,12 +23,6 @@ const getAllTasks = async (req, res) => {
     ?.toString()
     .padStart(2, '0')}`;
 
-  // console.log(currentMonth);
-  // console.log(currentDay);
-  // console.log(year);
-  // console.log(month);
-  // console.log(day);
-
   const tasks = await Task.find({
     owner,
     date: { $regex: currentMonth, $options: 'i' },
