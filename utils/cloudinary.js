@@ -1,7 +1,7 @@
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs/promises');
 
-const { HttpError } = require('./HttpError');
+const HttpError = require('./HttpError');
 
 const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_SECRET_KEY } = process.env;
 
@@ -16,7 +16,10 @@ const options = {
   use_filename: true,
   unique_filename: true,
   overwrite: true,
-  transformation: [{ width: 200, height: 200, gravity: 'faces', crop: 'fill' }, { radius: 'max' }],
+  transformation: [
+    { width: 200, height: 200, gravity: 'faces', crop: 'thumb', zoom: 0.75 },
+    { radius: 'max' },
+  ],
 };
 
 const upload = async imagePath => {
@@ -25,7 +28,7 @@ const upload = async imagePath => {
     await fs.unlink(imagePath);
     return image;
   } catch (error) {
-    throw new HttpError(404, error.message);
+    throw HttpError(404, error.message);
   }
 };
 

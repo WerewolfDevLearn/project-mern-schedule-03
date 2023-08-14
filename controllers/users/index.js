@@ -2,7 +2,7 @@ const register = require('./register');
 const login = require('./login');
 const logout = require('./logout');
 const getCurrent = require('./getCurrent');
-const updateAvatar = require('./updateAvatar');
+const deleteCurrent = require('./deleteCurrent');
 const updateProfile = require('./updateProfile');
 const verifyEmail = require('./verifyEmail');
 const sendVerificationEmail = require('./sendVerificationEmail');
@@ -12,7 +12,7 @@ module.exports = {
   login,
   logout,
   getCurrent,
-  updateAvatar,
+  deleteCurrent,
   updateProfile,
   verifyEmail,
   sendVerificationEmail,

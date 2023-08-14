@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const User = require('../../models/User');
+const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
 const { HttpError, sendEmail } = require('../../utils');
 const { SECRET_KEY } = process.env;
@@ -15,12 +15,23 @@ const login = ctrlWrapper(async (req, res) => {
     throw HttpError(401, `Email not verified, check ${email}!`);
   }
 
-  const isMatch = bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw HttpError(401);
   const payload = { id: user._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
-  await User.findByIdAndUpdate(user._id, { token });
-  res.json({ token });
+  const returntUser = await User.findByIdAndUpdate(user._id, { token }, { new: true });
+  res.status(200).json({
+    token,
+    user: {
+      name: returntUser.name,
+      email: returntUser.email,
+      phone: returntUser.phone,
+      birthday: returntUser.birthday,
+      avatarUrl: returntUser.avatarUrl,
+      _id: returntUser._id,
+      verifiedEmail: returntUser.verifiedEmail,
+    },
+  });
 });
 
 module.exports = login;

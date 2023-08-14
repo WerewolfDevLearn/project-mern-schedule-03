@@ -10,9 +10,9 @@ const userSchema = new Schema(
   {
     name: { type: String, unique: true, minlength: length(4), required },
     email: { type: String, unique: true, match: emailRegex, required },
-    phone: { type: String, default: null },
-    birthday: { type: String, default: null },
-    skype: { type: String, default: null },
+    phone: { type: String, default: '' },
+    birthday: { type: String, default: '' },
+    skype: { type: String, default: '' },
     password: { type: String, minlength: length(6), required },
     token: { type: String, default: null },
     avatarUrl: { type: String, required },

@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-const User = require('../../models/User');
+const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
 const { HttpError, sendEmail } = require('../../utils');
 
