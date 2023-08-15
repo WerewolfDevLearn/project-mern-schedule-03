@@ -7,6 +7,8 @@ const { cloudinary, HttpError } = require('../../utils');
 const updateProfile = ctrlWrapper(async (req, res) => {
   // const { name, email, password, phone, birthday, skype, verificationCode } = req.body;
   const { name, email, phone, birthday, skype } = req.body;
+  console.log('req.body: ', req.body);
+
   // let avatarUrl = req.user.avatarUrl;
   const existingUser = req.user;
 
@@ -63,6 +65,7 @@ const updateProfile = ctrlWrapper(async (req, res) => {
   if (!newUser) throw HttpError(404);
   res.status(200).json({
     message: `Profile updated successfully.`,
+    token: newUser.token,
     user: {
       skype: newUser.skype,
       name: newUser.name,

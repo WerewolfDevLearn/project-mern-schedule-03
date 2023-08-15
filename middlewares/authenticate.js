@@ -18,13 +18,9 @@ const authenticate = (req, res, next) => {
     throw HttpError(401, 'User is not authorized');
   }
 
-  jwt.verify(accessToken, ACCESS_SECRET_KEY, async (err, decode) => {
-    if (err) {
-      if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
-        throw HttpError(401, 'Token Error');
-      }
-      return next(err);
-    }
+  jwt.verify(token, SECRET_KEY, async (err, decode) => {
+    if (err) return next(err);
+
 
     try {
       const user = await User.findOne({ accessToken: accessToken });
