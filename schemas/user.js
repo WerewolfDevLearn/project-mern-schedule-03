@@ -13,6 +13,8 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const refreshSchema = Joi.object({ refreshToken: Joi.string().required() });
+
 const updateProfileShema = Joi.object({
   name: Joi.string().alphanum().min(4).required(),
   email: Joi.string().pattern(regExp.email).required().error(joiError.email),
@@ -34,6 +36,7 @@ const sendVerificationEmailSchema = Joi.object({
 module.exports = {
   registerSchema,
   loginSchema,
+  refreshSchema,
   updateProfileShema,
   verifyEmailSchema,
   sendVerificationEmailSchema,
