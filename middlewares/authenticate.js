@@ -19,12 +19,7 @@ const authenticate = (req, res, next) => {
   }
 
   jwt.verify(token, SECRET_KEY, async (err, decode) => {
-    if (err) {
-      if (err.name === 'TokenExpiredError' || err.name === 'JsonWebTokenError') {
-        throw HttpError(401, 'Token Error');
-      }
-      return next(err);
-    }
+    if (err) return next(err);
 
     try {
       const user = await User.findOne({ token: token });
