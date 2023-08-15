@@ -21,6 +21,7 @@ const updateProfileShema = Joi.object({
   birthday: Joi.string().allow(null).allow('').optional(),
   skype: Joi.string().allow(null).allow('').optional(),
   verificationCode: Joi.string().allow('').optional(),
+  avatarUrl: Joi.string().allow('').optional(),
 });
 
 const verifyEmailSchema = Joi.object({

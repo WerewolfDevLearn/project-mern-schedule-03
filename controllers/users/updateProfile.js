@@ -7,6 +7,8 @@ const { cloudinary, HttpError } = require('../../utils');
 const updateProfile = ctrlWrapper(async (req, res) => {
   // const { name, email, password, phone, birthday, skype, verificationCode } = req.body;
   const { name, email, phone, birthday, skype } = req.body;
+  console.log('req.body: ', req.body);
+
   // let avatarUrl = req.user.avatarUrl;
   const existingUser = req.user;
 
