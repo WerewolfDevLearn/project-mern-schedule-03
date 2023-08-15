@@ -65,6 +65,7 @@ const updateProfile = ctrlWrapper(async (req, res) => {
   if (!newUser) throw HttpError(404);
   res.status(200).json({
     message: `Profile updated successfully.`,
+    token: newUser.token,
     user: {
       skype: newUser.skype,
       name: newUser.name,
