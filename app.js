@@ -16,7 +16,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 app.use('/api', routes);
-// app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocument));
+app.use('/api-docs', swagger.serve, swagger.setup(swaggerDocument));
 
 app.use(missingRouteHandler);
 app.use(globalErrorHandler);
