@@ -3,11 +3,16 @@
   "info": {
     "version": "1.0.1",
     "title": "UpperCode project",
-    "discription": "Best documentation of best developer team"
+    "description": "Introducing [**GooseTrack**](https://werewolfdevlearn.github.io/project-mern-schedule-01/), Your Ultimate Task Manager and Calendar Companion! </br></br> _The best documentation of the best developer team._ </br></br> GooseTrack offers a comprehensive overview of your schedule, presenting all your tasks, events, and meetings in a visually appealing and intuitive format. Say goodbye to scattered to-do lists and hello to streamlined productivity with GooseTrack!</br></br></br>**Key Features:**</br></br>**Seamless Registration:** Get started quickly and experience the power of GooseTrack within moments.</br></br>**Intuitive Interface:** GooseTrack's user-friendly design ensures a smooth and enjoyable experience from day one.</br></br>**Personalized Settings:** Tailor your profile information, preferences, and calendar filters to match your unique needs.</br></br>**Efficient Task Management:** Easily add, update, and delete tasks to keep your schedule up to date.</br></br>**Streamlined Planning:** Visualize your upcoming events and tasks effortlessly, ensuring you're always in control of your commitments.</br></br>**Universal Productivity:** GooseTrack adapts to your workflow, enhancing your ability to manage tasks, events, and deadlines with ease.</br></br></br> With **GooseTrack**, you can effortlessly _`create`_, _`update`_, and _`delete`_ tasks, as well as _`retrieve tasks for a specific month`_. Additionally, you can personalize your profile by _`updating`_ your information and _`uploading`_ an avatar.</br></br>An exceptional feature offered by **GooseTrack** is the capacity for users to share their feedback regarding the application. Sharing their thoughts, suggesting improvements, or conveying their appreciation - users hold the ability to offer invaluable insights through their feedback, thus contributing to shaping the future evolution of the app.</br></br>Don't let chaos and missed tasks rule your life. Embrace the effectiveness and clarity that [**GooseTrack's**](https://werewolfdevlearn.github.io/project-mern-schedule-01/) innovative task management and calendar integration bring. Witness the transformation in your productivity and start maximizing your days!</br></br>You can also visit the [repository](https://github.com/WerewolfDevLearn/project-mern-schedule-03) of this application for more detailed information. </br></br> **Technology Stack Used in the Project:** </br></br> **Node.js** - JavaScript runtime environment on the server </br></br> **Express.js**- framework for developing web applications on Node.js </br></br> **MongoDB** - NoSQL database </br></br> **Mongoose** - library for working with MongoDB in Node.js </br></br>Ready to begin? Sign up swiftly and uncover the magic of GooseTrack! </br></br>**_`*`Notes_**:</br>_Base url `https://project-mern-schedule-03.onrender.com/api-docs`_ "
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://project-mern-schedule-03.onrender.com/api-docs" }],
+  "servers": [
+    {
+      "url": "http://localhost:3001/api"
+    },
+    { "url": "https://project-mern-schedule-03.onrender.com/api" }
+  ],
   "tags": [
     { "name": "Users", "description": "Users endpoints" },
     { "name": "Tasks", "description": "Tasks endpoints" },
@@ -36,10 +41,34 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)"
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "409": {
-            "description": "Provided email already exists"
+            "description": "Provided email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -187,14 +216,14 @@
         }
       }
     },
-    "/tasks/": {
+    "/tasks": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get all user's tasks",
         "parameters": [
           {
-            "name": "year",
             "in": "query",
+            "name": "year",
             "description": "Year of the tasks",
             "required": true,
             "schema": {
@@ -203,8 +232,8 @@
             }
           },
           {
-            "name": "month",
             "in": "query",
+            "name": "month",
             "description": "Month of the tasks",
             "required": true,
             "schema": {
@@ -213,10 +242,9 @@
             }
           },
           {
-            "name": "day",
             "in": "query",
+            "name": "day",
             "description": "Day of the tasks",
-            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -226,31 +254,77 @@
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
-            "description": "Successful operations",
+            "description": "Successful operation",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/GetAllTasksResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllTasksResponse"
+                }
               }
             }
           },
           "400": {
-            "description": "'Wrong month. Min - 1, max - 12' or 'Missing owner' or 'Missing year or month' "
+            "description": "'Wrong month. Min - 1, max - 12' or 'Missing owner' or 'Missing year or month'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Failed to fetch tasks"
+            "description": "Failed to fetch tasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
       "post": {
         "tags": ["Tasks"],
-        "summary": "Adds task",
+        "summary": "Add task",
         "parameters": [],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Object for add task",
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddTaskRequest" } }
           }
         },
         "responses": {
@@ -263,10 +337,64 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request' or 'END time must be greater than START time.' "
+            "description": "'Missing owner' or 'Missing body of request' or 'END time must be greater than START time.' ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Similar task already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Failed to create a task"
+            "description": "Failed to create a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -291,7 +419,7 @@
           "description": "Object for update task",
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/UpdateTaskRequest" } }
           }
         },
         "responses": {
@@ -304,10 +432,54 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' "
+            "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Task not found for update"
+            "description": "Task not found for update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to edit a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -331,23 +503,64 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": "Task deleted successfully"
-                }
+                "schema": { "$ref": "#/components/schemas/DeleteTaskResponse" }
               }
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Task not found for delete"
+            "description": "Task not found for delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "reviews": {
+    "/reviews": {
       "get": {
         "tags": ["Reviews"],
         "summary": "Get all reviews",
@@ -356,7 +569,6 @@
             "name": "page",
             "in": "query",
             "description": "Number of page of review's list",
-            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -366,7 +578,6 @@
             "name": "limit",
             "in": "query",
             "description": "Number of items of reviews on the page",
-            "required": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -378,12 +589,49 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/GetAllReview" }
+                "schema": { "$ref": "#/components/schemas/GetAllReviews" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
               }
             }
           },
           "404": {
-            "description": "Not found reviews"
+            "description": "Not found reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -399,15 +647,59 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Review" }
+                "schema": { "$ref": "#/components/schemas/GetReviewsByOwn" }
               }
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not found reviews"
+            "description": "Not found reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -433,13 +725,64 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request'"
+            "description": "'Missing owner' or 'Missing body of request'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
           },
           "409": {
-            "description": "Review from you already exists"
+            "description": "Review from you already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Failed to create a review"
+            "description": "Failed to create a review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -456,7 +799,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operations",
             "content": {
               "application/json": {
@@ -465,10 +808,54 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request'"
+            "description": "'Missing owner' or 'Missing body of request'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Review not found for update"
+            "description": "Review not found for update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to update a review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -482,18 +869,59 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": "Review deleted successfully"
-                }
+                "schema": { "$ref": "#/components/schemas/DeleteReviewResponse" }
               }
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Review not found for delete"
+            "description": "Review not found for delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete a review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -501,13 +929,92 @@
   },
   "components": {
     "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "User's name", "example": "Antony" },
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": ""
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": ""
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": ""
+          },
+          "_id": {
+            "type": "string",
+            "description": "User's ID",
+            "example": "64d387e745021a7e4d683ba0"
+          },
+          "verifiedEmail": {
+            "type": "boolean",
+            "description": "User's email is verifyed",
+            "example": "true"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Task's title", "example": "Task #1" },
+          "start": { "type": "string", "description": "Task's start time", "example": "hh:mm" },
+          "end": { "type": "string", "description": "Task's end time", "example": "hh:mm" },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["low", "medium", "high"],
+            "example": "low"
+          },
+          "date": { "type": "string", "description": "Task's date", "example": "YYYY-MM-DD" },
+          "category": {
+            "type": "string",
+            "description": "Task's category",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "in-progress"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "rating": { "type": "integer", "example": 0 },
+          "comment": { "type": "string", "example": "Some text of review" }
+        }
+      },
       "RegistrationRequest": {
         "type": "object",
         "required": ["name", "email", "password"],
         "properties": {
           "name": { "type": "string", "description": "User's name", "example": "Name" },
-          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
-          "email": { "type": "string", "description": "User's email", "format": "email" }
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
         }
       },
       "CurrentUser": {
@@ -597,7 +1104,11 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
-          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "12345678901112"
+          },
           "user": {
             "$ref": "#/components/schemas/User"
           }
@@ -606,7 +1117,11 @@
       "GetCurrentUserResponse": {
         "type": "object",
         "properties": {
-          "token": { "type": "string", "description": "User's token", "example": "12345678901112" },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "12345678901112"
+          },
           "user": { "$ref": "#/components/schemas/CurrentUser" }
         }
       },
@@ -617,8 +1132,120 @@
             "type": "string",
             "example": "Get all tasks for the month (currentMonth) (currentDay)"
           },
-          "tasks": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } },
-          "tasksByDay": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } }
+          "tasks": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Task" },
+            "example": [
+              {
+                "_id": "64db9a08372ee56caf90b7aa",
+                "title": "Meeting with Client",
+                "start": "15:00",
+                "end": "15:30",
+                "priority": "low",
+                "date": "2023-08-23",
+                "category": "to-do",
+                "owner": "64d387e745021a7e4d683ba0",
+                "createdAt": "2023-08-15T15:30:16.215Z",
+                "updatedAt": "2023-08-15T15:30:16.215Z"
+              },
+              {
+                "_id": "64db9a5daee0e37ca304ed6d",
+                "title": "Run Quality Assurance Tests on Software Release",
+                "start": "15:00",
+                "end": "16:30",
+                "priority": "low",
+                "date": "2023-08-24",
+                "category": "to-do",
+                "owner": "64d387e745021a7e4d683ba0",
+                "createdAt": "2023-08-15T15:31:41.730Z",
+                "updatedAt": "2023-08-15T15:31:41.730Z"
+              },
+              {
+                "_id": "64db9b647bc65861f811e5ec",
+                "title": "Submit Monthly Report",
+                "start": "15:00",
+                "end": "16:30",
+                "priority": "low",
+                "date": "2023-08-25",
+                "category": "to-do",
+                "owner": {
+                  "_id": "64d387e745021a7e4d683ba0",
+                  "name": "Helen",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497617/rewievs/image_70_j8immx.png"
+                },
+                "createdAt": "2023-08-15T15:36:05.019Z",
+                "updatedAt": "2023-08-15T15:36:05.019Z"
+              }
+            ]
+          },
+          "tasksByDay": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Task" },
+            "example": [
+              {
+                "_id": "64db9b647bc65861f811e5ec",
+                "title": "Submit Monthly Report",
+                "start": "15:00",
+                "end": "16:30",
+                "priority": "low",
+                "date": "2023-08-25",
+                "category": "to-do",
+                "owner": {
+                  "_id": "64d387e745021a7e4d683ba0",
+                  "name": "Helen",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497617/rewievs/image_70_j8immx.png"
+                },
+                "createdAt": "2023-08-15T15:36:05.019Z",
+                "updatedAt": "2023-08-15T15:36:05.019Z"
+              }
+            ]
+          }
+        }
+      },
+      "AddTaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "date", "priority", "category"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of a task",
+            "example": "New Task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Start time. In `HH:mm` format.",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "End time. In `HH:mm` format. Must be greater than `start`.",
+            "example": "10:30"
+          },
+          "date": {
+            "type": "string",
+            "description": "Day on which to schedule a task. In 'YYYY-MM-DD' format.",
+            "example": "2023-08-16"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of a task. Possible values: `\"low\", \"medium\", \"high\"`",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "description": "The category of a task. Possible values: `\"to-do\", \"in-progress\", \"done\"`",
+            "example": "in-progress"
+          }
+        },
+        "example": {
+          "title": "Run Quality Assurance Tests on Software Release",
+          "start": "15:00",
+          "end": "16:30",
+          "priority": "medium",
+          "date": "2023-08-25",
+          "category": "to-do"
         }
       },
       "AddTaskResponse": {
@@ -633,26 +1260,145 @@
           }
         }
       },
+      "UpdateTaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "date", "priority", "category"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of a task",
+            "example": "New Task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Start time. In `HH:mm` format.",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "End time. In `HH:mm` format. Must be greater than `start`.",
+            "example": "10:30"
+          },
+          "date": {
+            "type": "string",
+            "description": "Day on which to schedule a task. In 'YYYY-MM-DD' format.",
+            "example": "2023-08-16"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of a task. Possible values: `\"low\", \"medium\", \"high\"`",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "description": "The category of a task. Possible values: `\"to-do\", \"in-progress\", \"done\"`",
+            "example": "in-progress"
+          }
+        },
+        "example": {
+          "title": "Run Quality Assurance Tests on Software Release",
+          "start": "10:00",
+          "end": "12:30",
+          "priority": "high",
+          "date": "2023-08-26",
+          "category": "to-do"
+        }
+      },
       "UpdateTaskResponse": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string",
-            "example": "Review edited successfully"
+            "example": "Task edited successfully"
           },
           "task": {
             "$ref": "#/components/schemas/Task"
           }
         }
       },
-      "GetAllReview": {
+      "DeleteTaskResponse": {
         "type": "object",
         "properties": {
-          "reviews": { "$ref": "#/components/schemas/Review" },
+          "message": {
+            "type": "string",
+            "example": "Task deleted successfully"
+          }
+        }
+      },
+      "GetAllReviews": {
+        "type": "object",
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Review" },
+            "example": [
+              {
+                "_id": "64d3eced877bb30f41b94c67",
+                "rating": 5,
+                "comment": "A good, visual time planning program.",
+                "owner": {
+                  "_id": "64d3ec54877bb30f41b94c5f",
+                  "name": "Ihor Dronenko",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_382_t3n1lr.png"
+                },
+                "createdAt": "2023-08-09T19:45:49.736Z",
+                "updatedAt": "2023-08-09T19:45:49.736Z"
+              },
+              {
+                "_id": "64d3ec1d877bb30f41b94c5b",
+                "rating": 5,
+                "comment": "Very cool app, everything is clear and functional. A great program for time chronology.",
+                "owner": {
+                  "_id": "64d3ebc7877bb30f41b94c53",
+                  "name": "Mykola Kapytaniuk",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_474_ezymz2.png"
+                },
+                "createdAt": "2023-08-09T19:42:21.883Z",
+                "updatedAt": "2023-08-09T19:42:21.883Z"
+              },
+              {
+                "_id": "64d3eb42877bb30f41b94c4f",
+                "rating": 5,
+                "comment": "Really helps to plan the day and visualize tasks. Exactly what I was looking for. Huge thanks to the developers!",
+                "owner": {
+                  "_id": "64d3ea78877bb30f41b94c44",
+                  "name": "Kateryna Hilcher",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_189_mcvdkf.png"
+                },
+                "createdAt": "2023-08-09T19:38:42.084Z",
+                "updatedAt": "2023-08-09T19:38:42.084Z"
+              }
+            ]
+          },
           "totalRewiews": { "type": "integer", "example": "10" },
           "totalPages": { "type": "integer", "example": "2" },
           "currentPage": { "type": "integer", "example": "1" },
           "limit": { "type": "integer", "example": "5" }
+        }
+      },
+      "GetReviewsByOwn": {
+        "type": "object",
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Review" },
+            "example": [
+              {
+                "_id": "64d3912245021a7e4d683bc4",
+                "rating": 5,
+                "comment": "The current todo app works wonderfully! It`s great! However, it would be a valuable addition to enable users to customize the background of individual todo items.",
+                "owner": {
+                  "_id": "64d387e745021a7e4d683ba0",
+                  "name": "Helen",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497617/rewievs/image_70_j8immx.png"
+                },
+                "createdAt": "2023-08-09T13:14:10.641Z",
+                "updatedAt": "2023-08-09T13:14:10.641Z"
+              }
+            ]
+          }
         }
       },
       "AddReviewResponse": {
@@ -679,58 +1425,97 @@
           }
         }
       },
-      "User": {
+      "DeleteReviewResponse": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "description": "User's name", "example": "Name" },
-          "email": { "type": "string", "description": "User's email", "format": "email" },
-          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
-          "birthday": {
+          "message": {
             "type": "string",
-            "description": "User's birthday",
-            "example": "Birthday"
-          },
-          "avatarUrl": {
-            "type": "string",
-            "description": "User's avatar",
-            "example": "www.avatar.com/avatar/12345678"
-          },
-          "_id": {
-            "type": "string",
-            "description": "User's ID",
-            "example": "12345678"
-          },
-          "verifiedEmail": {
-            "type": "boolean",
-            "description": "User's email is verifyed",
-            "example": "www.avatar.com/avatar/12345678"
+            "example": "Review deleted successfully"
           }
         }
       },
-      "Task": {
+      "BadRequestResponse": {
         "type": "object",
-        "properties": {
-          "title": { "type": "string", "description": "Task's title", "example": "Task #1" },
-          "start": { "type": "string", "description": "Task's start time", "example": "hh:mm" },
-          "end": { "type": "string", "description": "Task's end time", "example": "hh:mm" },
-          "priority": {
-            "type": "string",
-            "description": "Task's priority",
-            "example": "'low', 'medium' or 'high'"
-          },
-          "date": { "type": "string", "description": "Task's date", "example": "YYYY-MM-DD" },
-          "category": {
-            "type": "string",
-            "description": "Task's category",
-            "example": "'to-do', 'in-progress' or 'done'"
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
           }
+        },
+        "example": {
+          "message": "Bad Request"
         }
       },
-      "Review": {
+      "NotFoundResponse": {
         "type": "object",
-        "properties": {
-          "raiting": { "type": "integer", "exapple": "0" },
-          "comment": { "type": "string", "example": "Some text of review" }
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "message": "Not found"
+        }
+      },
+      "ForbiddenResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "message": "Forbidden"
+        }
+      },
+      "ConflictResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "message": "Conflict"
+        }
+      },
+      "UnauthorizedResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "message": "Unauthorized"
+        }
+      },
+      "ServerResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "message": "Oops, it seems we`ve encountered an unexpected hiccup. Our team is already on the case to address this issue. Please bear with us while we work to restore things to normal"
         }
       }
     },
