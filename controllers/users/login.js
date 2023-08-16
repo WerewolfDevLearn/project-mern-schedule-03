@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
 const { HttpError, sendEmail } = require('../../utils');
-const { SECRET_KEY } = process.env;
+const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const login = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
@@ -12,24 +12,28 @@ const login = ctrlWrapper(async (req, res) => {
   if (!user) throw HttpError(401);
   if (!user.verifiedEmail) {
     await sendEmail(email, user.verificationCode);
-    throw HttpError(401, `Email not verified, check ${email}!`);
+    throw HttpError(401, 'Action Required: Verify Your Email');
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw HttpError(401);
+  const isMatch = bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw HttpError(401);
+  }
   const payload = { id: user._id };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '23h' });
-  const returntUser = await User.findByIdAndUpdate(user._id, { token }, { new: true });
+  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '10h' });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+  const newUser = await User.findByIdAndUpdate(user._id, { token, refreshToken }, { new: true });
+
   res.status(200).json({
     token,
+    refreshToken,
     user: {
-      name: returntUser.name,
-      email: returntUser.email,
-      phone: returntUser.phone,
-      birthday: returntUser.birthday,
-      avatarUrl: returntUser.avatarUrl,
-      _id: returntUser._id,
-      verifiedEmail: returntUser.verifiedEmail,
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      birthday: newUser.birthday,
+      avatarUrl: newUser.avatarUrl,
+      _id: newUser._id,
+      verifiedEmail: newUser.verifiedEmail,
     },
   });
 });

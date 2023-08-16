@@ -15,6 +15,7 @@ const userSchema = new Schema(
     skype: { type: String, default: '' },
     password: { type: String, minlength: length(6), required },
     token: { type: String, default: null },
+    refreshToken: { type: String, default: null },
     avatarUrl: { type: String, default: '' },
     avatarId: { type: String, default: null },
     verifiedEmail: { type: Boolean, default: false, required },
