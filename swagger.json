@@ -582,12 +582,49 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/GetAllReview" }
+                "schema": { "$ref": "#/components/schemas/GetAllReviews" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
               }
             }
           },
           "404": {
-            "description": "Not found reviews"
+            "description": "Not found reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1094,7 +1131,7 @@
           }
         }
       },
-      "GetAllReview": {
+      "GetAllReviews": {
         "type": "object",
         "properties": {
           "reviews": { "$ref": "#/components/schemas/Review" },
