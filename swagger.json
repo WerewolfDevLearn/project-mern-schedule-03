@@ -576,28 +576,32 @@
       "User": {
         "type": "object",
         "properties": {
-          "name": { "type": "string", "description": "User's name", "example": "Name" },
+          "name": { "type": "string", "description": "User's name", "example": "Antony" },
           "email": { "type": "string", "description": "User's email", "format": "email" },
-          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": ""
+          },
           "birthday": {
             "type": "string",
             "description": "User's birthday",
-            "example": "Birthday"
+            "example": ""
           },
           "avatarUrl": {
             "type": "string",
             "description": "User's avatar",
-            "example": "www.avatar.com/avatar/12345678"
+            "example": ""
           },
           "_id": {
             "type": "string",
             "description": "User's ID",
-            "example": "12345678"
+            "example": "64d387e745021a7e4d683ba0"
           },
           "verifiedEmail": {
             "type": "boolean",
             "description": "User's email is verifyed",
-            "example": "www.avatar.com/avatar/12345678"
+            "example": "true"
           }
         }
       },
