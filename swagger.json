@@ -376,6 +376,16 @@
               }
             }
           },
+          "409": {
+            "description": "Similar task already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Failed to create a task",
             "content": {
@@ -718,13 +728,64 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request'"
+            "description": "'Missing owner' or 'Missing body of request'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
           },
           "409": {
-            "description": "Review from you already exists"
+            "description": "Review from you already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictResponse"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Failed to create a review"
+            "description": "Failed to create a review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -853,7 +914,7 @@
       "Review": {
         "type": "object",
         "properties": {
-          "raiting": { "type": "integer", "exapple": "0" },
+          "rating": { "type": "integer", "example": 0 },
           "comment": { "type": "string", "example": "Some text of review" }
         }
       },
