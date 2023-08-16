@@ -324,7 +324,7 @@
           "description": "Object for add task",
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/addTaskRequest" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddTaskRequest" } }
           }
         },
         "responses": {
@@ -409,7 +409,7 @@
           "description": "Object for update task",
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/UpdateTaskRequest" } }
           }
         },
         "responses": {
@@ -422,10 +422,54 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' "
+            "description": "'Missing owner' or 'Missing body of request' or 'Missing field' or 'END time must be greater than START time.' ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Task not found for update"
+            "description": "Task not found for update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to edit a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -457,10 +501,54 @@
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Task not found for delete"
+            "description": "Task not found for delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -890,7 +978,7 @@
           }
         }
       },
-      "addTaskRequest": {
+      "AddTaskRequest": {
         "type": "object",
         "required": ["title", "start", "end", "date", "priority", "category"],
         "properties": {
@@ -948,12 +1036,58 @@
           }
         }
       },
+      "UpdateTaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "date", "priority", "category"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of a task",
+            "example": "New Task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Start time. In `HH:mm` format.",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "End time. In `HH:mm` format. Must be greater than `start`.",
+            "example": "10:30"
+          },
+          "date": {
+            "type": "string",
+            "description": "Day on which to schedule a task. In 'YYYY-MM-DD' format.",
+            "example": "2023-08-16"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of a task. Possible values: `\"low\", \"medium\", \"high\"`",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "description": "The category of a task. Possible values: `\"to-do\", \"in-progress\", \"done\"`",
+            "example": "in-progress"
+          }
+        },
+        "example": {
+          "title": "Run Quality Assurance Tests on Software Release",
+          "start": "10:00",
+          "end": "12:30",
+          "priority": "high",
+          "date": "2023-08-26",
+          "category": "to-do"
+        }
+      },
       "UpdateTaskResponse": {
         "type": "object",
         "properties": {
           "message": {
             "type": "string",
-            "example": "Review edited successfully"
+            "example": "Task edited successfully"
           },
           "task": {
             "$ref": "#/components/schemas/Task"
@@ -1078,13 +1212,13 @@
           "message": "Oops, it seems we`ve encountered an unexpected hiccup. Our team is already on the case to address this issue. Please bear with us while we work to restore things to normal"
         }
       }
-    }
-  },
-  "securitySchemes": {
-    "Bearer": {
-      "type": "http",
-      "scheme": "bearer",
-      "bearerFormat": "JWT"
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }
