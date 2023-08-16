@@ -1,10 +1,10 @@
 const Task = require('../../models/task');
 const ctrlWrapper = require('../../decorators/ctrlWrapper');
-const HttpError = require('../../utils/HttpError');
+const { HttpError } = require('../../utils');
 
 const addTask = async (req, res) => {
   const body = req.body;
-  const { start, end } = req.body;
+  const { title, start, end, priority, date, category } = req.body;
   const owner = req.user?._id;
 
   if (!owner) {
@@ -17,6 +17,14 @@ const addTask = async (req, res) => {
 
   if (start >= end) {
     throw HttpError(400, 'END time must be greater than START time.');
+  }
+
+  const existingTask = await Task.findOne({
+    $and: [{ title }, { start }, { end }, { priority }, { date }, { category }],
+  });
+
+  if (existingTask) {
+    throw HttpError(400, 'Similar task already exists');
   }
 
   const task = await Task.create({ ...body, owner });
