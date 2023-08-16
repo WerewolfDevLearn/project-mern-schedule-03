@@ -27,11 +27,11 @@ const updateTask = async (req, res) => {
   const task = await Task.findByIdAndUpdate({ _id: id, owner }, req.body, { new: true });
 
   if (!task) {
-    throw HttpError(404, 'Review not found for update');
+    throw HttpError(404, 'Task not found for update');
   }
 
   res.json({
-    message: 'Review edited successfully',
+    message: 'Task edited successfully',
     task,
   });
 };
