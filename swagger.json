@@ -640,15 +640,59 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/Review" }
+                "schema": { "$ref": "#/components/schemas/GetReviewsByOwn" }
               }
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Not found reviews"
+            "description": "Not found reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to get review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -1180,6 +1224,29 @@
           "totalPages": { "type": "integer", "example": "2" },
           "currentPage": { "type": "integer", "example": "1" },
           "limit": { "type": "integer", "example": "5" }
+        }
+      },
+      "GetReviewsByOwn": {
+        "type": "object",
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Review" },
+            "example": [
+              {
+                "_id": "64d3912245021a7e4d683bc4",
+                "rating": 5,
+                "comment": "The current todo app works wonderfully! It`s great! However, it would be a valuable addition to enable users to customize the background of individual todo items.",
+                "owner": {
+                  "_id": "64d387e745021a7e4d683ba0",
+                  "name": "Helen",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497617/rewievs/image_70_j8immx.png"
+                },
+                "createdAt": "2023-08-09T13:14:10.641Z",
+                "updatedAt": "2023-08-09T13:14:10.641Z"
+              }
+            ]
+          }
         }
       },
       "AddReviewResponse": {
