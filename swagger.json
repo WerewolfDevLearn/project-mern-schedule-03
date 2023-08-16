@@ -503,10 +503,7 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": "Task deleted successfully"
-                }
+                "schema": { "$ref": "#/components/schemas/DeleteTaskResponse" }
               }
             }
           },
@@ -872,18 +869,59 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "string",
-                  "example": "Review deleted successfully"
-                }
+                "schema": { "$ref": "#/components/schemas/DeleteReviewResponse" }
               }
             }
           },
           "400": {
-            "description": "Missing owner"
+            "description": "Missing owner",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Review not found for delete"
+            "description": "Review not found for delete",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to delete a review",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1280,6 +1318,15 @@
           }
         }
       },
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Task deleted successfully"
+          }
+        }
+      },
       "GetAllReviews": {
         "type": "object",
         "properties": {
@@ -1375,6 +1422,15 @@
           },
           "task": {
             "$ref": "#/components/schemas/Review"
+          }
+        }
+      },
+      "DeleteReviewResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review deleted successfully"
           }
         }
       },
