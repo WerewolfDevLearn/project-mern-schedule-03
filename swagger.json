@@ -1134,7 +1134,48 @@
       "GetAllReviews": {
         "type": "object",
         "properties": {
-          "reviews": { "$ref": "#/components/schemas/Review" },
+          "reviews": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Review" },
+            "example": [
+              {
+                "_id": "64d3eced877bb30f41b94c67",
+                "rating": 5,
+                "comment": "A good, visual time planning program.",
+                "owner": {
+                  "_id": "64d3ec54877bb30f41b94c5f",
+                  "name": "Ihor Dronenko",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_382_t3n1lr.png"
+                },
+                "createdAt": "2023-08-09T19:45:49.736Z",
+                "updatedAt": "2023-08-09T19:45:49.736Z"
+              },
+              {
+                "_id": "64d3ec1d877bb30f41b94c5b",
+                "rating": 5,
+                "comment": "Very cool app, everything is clear and functional. A great program for time chronology.",
+                "owner": {
+                  "_id": "64d3ebc7877bb30f41b94c53",
+                  "name": "Mykola Kapytaniuk",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_474_ezymz2.png"
+                },
+                "createdAt": "2023-08-09T19:42:21.883Z",
+                "updatedAt": "2023-08-09T19:42:21.883Z"
+              },
+              {
+                "_id": "64d3eb42877bb30f41b94c4f",
+                "rating": 5,
+                "comment": "Really helps to plan the day and visualize tasks. Exactly what I was looking for. Huge thanks to the developers!",
+                "owner": {
+                  "_id": "64d3ea78877bb30f41b94c44",
+                  "name": "Kateryna Hilcher",
+                  "avatarUrl": "https://res.cloudinary.com/dkqxaid79/image/upload/v1691497616/rewievs/image_189_mcvdkf.png"
+                },
+                "createdAt": "2023-08-09T19:38:42.084Z",
+                "updatedAt": "2023-08-09T19:38:42.084Z"
+              }
+            ]
+          },
           "totalRewiews": { "type": "integer", "example": "10" },
           "totalPages": { "type": "integer", "example": "2" },
           "currentPage": { "type": "integer", "example": "1" },
