@@ -298,7 +298,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                  "$ref": "#/components/schemas/NotFoundResponse"
                 }
               }
             }
@@ -324,7 +324,7 @@
           "description": "Object for add task",
           "required": true,
           "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            "application/json": { "schema": { "$ref": "#/components/schemas/addTaskRequest" } }
           }
         },
         "responses": {
@@ -337,10 +337,54 @@
             }
           },
           "400": {
-            "description": "'Missing owner' or 'Missing body of request' or 'END time must be greater than START time.' "
+            "description": "'Missing owner' or 'Missing body of request' or 'END time must be greater than START time.' ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
           },
           "500": {
-            "description": "Failed to create a task"
+            "description": "Failed to create a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -844,6 +888,52 @@
               }
             ]
           }
+        }
+      },
+      "addTaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "date", "priority", "category"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of a task",
+            "example": "New Task"
+          },
+          "start": {
+            "type": "string",
+            "description": "Start time. In `HH:mm` format.",
+            "example": "09:00"
+          },
+          "end": {
+            "type": "string",
+            "description": "End time. In `HH:mm` format. Must be greater than `start`.",
+            "example": "10:30"
+          },
+          "date": {
+            "type": "string",
+            "description": "Day on which to schedule a task. In 'YYYY-MM-DD' format.",
+            "example": "2023-08-16"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Priority of a task. Possible values: `\"low\", \"medium\", \"high\"`",
+            "enum": ["low", "medium", "high"],
+            "example": "high"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "description": "The category of a task. Possible values: `\"to-do\", \"in-progress\", \"done\"`",
+            "example": "in-progress"
+          }
+        },
+        "example": {
+          "title": "Run Quality Assurance Tests on Software Release",
+          "start": "15:00",
+          "end": "16:30",
+          "priority": "medium",
+          "date": "2023-08-25",
+          "category": "to-do"
         }
       },
       "AddTaskResponse": {
