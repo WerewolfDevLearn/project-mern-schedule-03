@@ -27,12 +27,13 @@ const login = ctrlWrapper(async (req, res) => {
     token,
     refreshToken,
     user: {
+      _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       phone: newUser.phone,
+      skype: newUser.skype,
       birthday: newUser.birthday,
       avatarUrl: newUser.avatarUrl,
-      _id: newUser._id,
       verifiedEmail: newUser.verifiedEmail,
     },
   });

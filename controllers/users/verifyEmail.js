@@ -20,7 +20,7 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
   const newUser = await User.findByIdAndUpdate(
     user._id,
-    { verifiedEmail: true, verificationCode: null, token },
+    { verifiedEmail: true, verificationCode: null, token, refreshToken },
     { new: true }
   );
   if (!newUser) throw HttpError(404);
@@ -30,12 +30,13 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
     token,
     refreshToken,
     user: {
+      _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       phone: newUser.phone,
+      skype: newUser.skype,
       birthday: newUser.birthday,
       avatarUrl: newUser.avatarUrl,
-      _id: newUser._id,
       verifiedEmail: newUser.verifiedEmail,
     },
   });

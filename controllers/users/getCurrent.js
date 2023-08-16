@@ -8,14 +8,14 @@ const getCurrent = ctrlWrapper(async (req, res) => {
     token,
     refreshToken,
     user: {
+      _id,
       name,
       email,
       phone,
+      skype,
       birthday,
       avatarUrl,
-      _id,
       verifiedEmail,
-      skype,
     },
   });
 });
