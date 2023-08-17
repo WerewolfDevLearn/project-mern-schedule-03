@@ -4,6 +4,7 @@ const validTask = require('./task');
 const {
   registerSchema,
   loginSchema,
+  refreshSchema,
   updateProfileShema,
   verifyEmailSchema,
   sendVerificationEmailSchema,
@@ -12,6 +13,7 @@ const {
 module.exports = {
   registerSchema,
   loginSchema,
+  refreshSchema,
 
   verifyEmailSchema,
   reveiwSchema,
