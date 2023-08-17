@@ -14,7 +14,8 @@ const login = ctrlWrapper(async (req, res) => {
     await sendEmail(email, user.verificationCode);
     throw HttpError(401, 'Action Required: Verify Your Email');
   }
-  const isMatch = bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
+  console.log(isMatch);
   if (!isMatch) {
     throw HttpError(401);
   }

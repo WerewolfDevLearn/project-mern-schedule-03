@@ -12,21 +12,19 @@ const register = ctrlWrapper(async (req, res) => {
   if (await User.findOne({ email })) throw HttpError(409);
 
   const hashPassword = await bcrypt.hash(password, 10);
-  const avatarUrl = '';
-  const verificationCode = crypto.randomUUID();
 
+  const verificationCode = crypto.randomUUID();
   await sendEmail(email, verificationCode);
 
   const newUser = await User.create({
     ...req.body,
     password: hashPassword,
-    avatarUrl,
     verificationCode,
   });
   if (!newUser) throw HttpError(404);
 
   const { _id, phone, skype, birthday, verifiedEmail } = newUser;
-  const profileData = { _id, name, email, birthday, phone, skype, avatarUrl, verifiedEmail };
+  const profileData = { _id, name, email, birthday, phone, skype, verifiedEmail };
 
   res.status(201).json({ user: { ...profileData } });
 });
