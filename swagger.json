@@ -11,8 +11,7 @@
     {
       "url": "http://localhost:3001/api"
     },
-    { "url": "https://project-mern-schedule-03.onrender.com/api" },
-    { "url": "http://localhost:8080/api" }
+    { "url": "https://project-mern-schedule-03.onrender.com/api" }
   ],
   "tags": [
     { "name": "Users", "description": "Users endpoints" },
