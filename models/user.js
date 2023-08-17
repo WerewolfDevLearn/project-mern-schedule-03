@@ -14,7 +14,11 @@ const userSchema = new Schema(
     birthday: { type: String, default: '' },
     skype: { type: String, default: '' },
     password: { type: String, minlength: length(6), required },
+<<<<<<< HEAD
     accessToken: { type: String, default: null },
+=======
+    token: { type: String, default: null },
+>>>>>>> a0d08a3572482d96d09d82a2966c37ec51a5d460
     refreshToken: { type: String, default: null },
     avatarUrl: { type: String, default: '' },
     avatarId: { type: String, default: null },

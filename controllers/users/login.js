@@ -15,30 +15,29 @@ const login = ctrlWrapper(async (req, res) => {
   if (!user) throw HttpError(401);
   if (!user.verifiedEmail) {
     await sendEmail(email, user.verificationCode);
-    throw HttpError(401, `Email not verified, check ${email}!`);
+    throw HttpError(401, 'Action Required: Verify Your Email');
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw HttpError(401);
+  const isMatch = bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw HttpError(401);
+  }
   const payload = { id: user._id };
-  const accessToken = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '10m' });
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '1d' });
-  const returntUser = await User.findByIdAndUpdate(
-    user._id,
-    { accessToken, refreshToken },
-    { new: true }
-  );
+  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '10h' });
+  const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
+  const newUser = await User.findByIdAndUpdate(user._id, { token, refreshToken }, { new: true });
+
   res.status(200).json({
-    accessToken,
+    token,
     refreshToken,
     user: {
-      name: returntUser.name,
-      email: returntUser.email,
-      phone: returntUser.phone,
-      birthday: returntUser.birthday,
-      avatarUrl: returntUser.avatarUrl,
-      _id: returntUser._id,
-      verifiedEmail: returntUser.verifiedEmail,
+      _id: newUser._id,
+      name: newUser.name,
+      email: newUser.email,
+      phone: newUser.phone,
+      skype: newUser.skype,
+      birthday: newUser.birthday,
+      avatarUrl: newUser.avatarUrl,
+      verifiedEmail: newUser.verifiedEmail,
     },
   });
 });

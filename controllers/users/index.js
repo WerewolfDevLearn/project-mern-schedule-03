@@ -2,6 +2,7 @@ const register = require('./register');
 const login = require('./login');
 const refresh = require('./refresh');
 const logout = require('./logout');
+const refresh = require('./refresh');
 const getCurrent = require('./getCurrent');
 const deleteCurrent = require('./deleteCurrent');
 const updateProfile = require('./updateProfile');
@@ -13,6 +14,7 @@ module.exports = {
   login,
   refresh,
   logout,
+  refresh,
   getCurrent,
   deleteCurrent,
   updateProfile,
