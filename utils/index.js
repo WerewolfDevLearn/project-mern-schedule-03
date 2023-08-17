@@ -3,6 +3,7 @@ const mongooseError = require('./mongooseError');
 const regExp = require('./regExp');
 const cloudinary = require('./cloudinary');
 const sendEmail = require('./sendEmail');
+const createMsg = require('./createMsg');
 const joiError = require('./joiError');
 const renderEjsTemplate = require('./renderEjsTemplate');
 const formatDate = require('./formatDate');
@@ -14,6 +15,7 @@ module.exports = {
   mongooseError,
   regExp,
   sendEmail,
+  createMsg,
   cloudinary,
   joiError,
   renderEjsTemplate,

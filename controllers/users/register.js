@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
-const { HttpError, sendEmail } = require('../../utils');
+const { HttpError, sendEmail, createMsg } = require('../../utils');
 
 const register = ctrlWrapper(async (req, res) => {
   const { name, email, password } = req.body;
@@ -14,7 +14,8 @@ const register = ctrlWrapper(async (req, res) => {
   const hashPassword = await bcrypt.hash(password, 10);
 
   const verificationCode = crypto.randomUUID();
-  await sendEmail(email, verificationCode);
+  const msg = createMsg.verifyEmail(email, verificationCode);
+  await sendEmail.nodemailer(msg);
 
   const newUser = await User.create({
     ...req.body,
@@ -23,8 +24,8 @@ const register = ctrlWrapper(async (req, res) => {
   });
   if (!newUser) throw HttpError(404);
 
-  const { _id, phone, skype, birthday, verifiedEmail } = newUser;
-  const profileData = { _id, name, email, birthday, phone, skype, verifiedEmail };
+  const { _id, phone, skype, birthday, avatarUrl, verifiedEmail } = newUser;
+  const profileData = { _id, name, email, birthday, phone, skype, avatarUrl, verifiedEmail };
 
   res.status(201).json({ user: { ...profileData } });
 });

@@ -1,44 +1,22 @@
-const nodemailer = require('nodemailer');
+const nmMail = require('nodemailer');
 
-const path = require('path');
+const HttpError = require('./HttpError');
 
-const { convert } = require('html-to-text');
+const { UKR_NET_EMAIL, UKR_NET_PASSWORD } = process.env;
 
-const renderEjsTemplate = require('./renderEjsTemplate');
-
-const { UKR_NET_EMAIL, UKR_NET_PASSWORD, APP_NAME } = process.env;
-
-const nodemailerConfig = {
+const transporter = nmMail.createTransport({
   host: 'smtp.ukr.net',
   port: 465,
   secure: true,
-  auth: {
-    user: UKR_NET_EMAIL,
-    pass: UKR_NET_PASSWORD,
-  },
-};
+  auth: { user: UKR_NET_EMAIL, pass: UKR_NET_PASSWORD },
+});
 
-const transport = nodemailer.createTransport(nodemailerConfig);
-
-const sendEmail = async (to, verificationCode) => {
-  const file = path.join(__dirname, '..', 'views', 'verification.ejs');
-  const html = renderEjsTemplate(file, { APP_NAME, to, verificationCode });
-
-  const emailOptions = {
-    from: `"Support" <${UKR_NET_EMAIL}>`,
-    to,
-    subject: `${APP_NAME} Confirmation`,
-    text: convert(html),
-    html,
-  };
-
+const nodemailer = async msg => {
   try {
-    await transport.sendMail(emailOptions);
-    console.log(`Email sent to ${emailOptions.to}`);
+    await transporter.sendMail(msg);
   } catch (error) {
-    console.log(error.message);
-    return error;
+    throw HttpError(500, error.message);
   }
 };
 
-module.exports = sendEmail;
+module.exports = { nodemailer };

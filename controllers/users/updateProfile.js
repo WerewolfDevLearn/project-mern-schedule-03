@@ -24,7 +24,9 @@ const updateProfile = ctrlWrapper(async (req, res) => {
   const newUser = await User.findByIdAndUpdate(_id, profileData, { new: true });
   if (!newUser) throw HttpError(404);
 
-  res.status(200).json({ message: 'Profile updated successfully.', user: { _id, ...profileData } });
+  res
+    .status(200)
+    .json({ message: 'Profile updated successfully.', user: { _id, ...profileData, avatarUrl } });
 });
 
 module.exports = updateProfile;

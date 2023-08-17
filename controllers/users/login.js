@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
-const { HttpError, sendEmail } = require('../../utils');
+const { HttpError, sendEmail, createMsg } = require('../../utils');
 const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const login = ctrlWrapper(async (req, res) => {
@@ -11,7 +11,8 @@ const login = ctrlWrapper(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) throw HttpError(401);
   if (!user.verifiedEmail) {
-    await sendEmail(email, user.verificationCode);
+    const msg = createMsg.verifyEmail(email, user.verificationCode);
+    await sendEmail.nodemailer(msg);
     throw HttpError(401, 'Action Required: Verify Your Email');
   }
   const isMatch = await bcrypt.compare(password, user.password);
