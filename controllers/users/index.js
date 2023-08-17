@@ -6,7 +6,6 @@ const getCurrent = require('./getCurrent');
 const deleteCurrent = require('./deleteCurrent');
 const updateProfile = require('./updateProfile');
 const verifyEmail = require('./verifyEmail');
-const sendVerificationEmail = require('./sendVerificationEmail');
 
 module.exports = {
   register,
@@ -17,5 +16,4 @@ module.exports = {
   deleteCurrent,
   updateProfile,
   verifyEmail,
-  sendVerificationEmail,
 };

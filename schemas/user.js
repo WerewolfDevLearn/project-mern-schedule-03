@@ -30,15 +30,10 @@ const verifyEmailSchema = Joi.object({
   verificationCode: Joi.string().required(),
 });
 
-const sendVerificationEmailSchema = Joi.object({
-  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
-});
-
 module.exports = {
   registerSchema,
   loginSchema,
   refreshSchema,
   updateProfileShema,
   verifyEmailSchema,
-  sendVerificationEmailSchema,
 };

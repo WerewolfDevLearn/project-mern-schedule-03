@@ -14,6 +14,7 @@ const updateProfile = ctrlWrapper(async (req, res) => {
 
   // Update avatar
   if (req.file) {
+    console.log(req.file);
     const { avatarId } = req.user;
     if (avatarId) await cloudinary.destroy(avatarId);
     // eslint-disable-next-line camelcase

@@ -22,11 +22,5 @@ router.patch(
   validateBody(schemas.updateProfileShema),
   ctrl.updateProfile
 );
-router.post(
-  '/code',
-  authenticate,
-  validateBody(schemas.sendVerificationEmailSchema),
-  ctrl.sendVerificationEmail
-);
 
 module.exports = router;

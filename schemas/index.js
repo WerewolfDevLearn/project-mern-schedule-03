@@ -7,7 +7,6 @@ const {
   refreshSchema,
   updateProfileShema,
   verifyEmailSchema,
-  sendVerificationEmailSchema,
 } = require('./user');
 
 module.exports = {
@@ -21,5 +20,4 @@ module.exports = {
 
   updateProfileShema,
   validTask,
-  sendVerificationEmailSchema,
 };
