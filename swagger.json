@@ -11,7 +11,8 @@
     {
       "url": "http://localhost:3001/api"
     },
-    { "url": "https://project-mern-schedule-03.onrender.com/api" }
+    { "url": "https://project-mern-schedule-03.onrender.com/api" },
+    { "url": "http://localhost:8080/api" }
   ],
   "tags": [
     { "name": "Users", "description": "Users endpoints" },
@@ -209,9 +210,23 @@
           "description": "Object for update user's profile",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
             }
+          },
+          "responses": {
+            "200": {
+              "description": "Successful operations",
+              "content": {
+                "application/json": {
+                  "schema": { "$ref": "#/components/schemas/CurrentUser" }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": { "description": "Something went wrong!" }
           }
         }
       }
@@ -1080,6 +1095,10 @@
             "type": "boolean",
             "description": "User's verificationCode",
             "example": "qwertyuiop"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "format": "base64"
           }
         }
       },
