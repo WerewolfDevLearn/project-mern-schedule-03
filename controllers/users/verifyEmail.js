@@ -6,6 +6,7 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const verifyEmail = ctrlWrapper(async (req, res) => {
   const { verificationCode } = req.body;
+  console.log(verificationCode);
   // Find user
   const userArr = await User.find({
     verificationCode: { $regex: `${verificationCode}`, $options: 'i' },
@@ -35,20 +36,14 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   );
   if (!newUser) throw HttpError(404);
 
+  const { _id, name, email, phone, skype, birthday, avatarUrl, verifiedEmail } = newUser;
+  const profileData = { _id, name, email, birthday, phone, skype, avatarUrl, verifiedEmail };
+
   res.status(200).json({
     message: `Email ${user.email} verified successfully.`,
     token,
     refreshToken,
-    user: {
-      _id: newUser._id,
-      name: newUser.name,
-      email: newUser.email,
-      phone: newUser.phone,
-      skype: newUser.skype,
-      birthday: newUser.birthday,
-      avatarUrl: newUser.avatarUrl,
-      verifiedEmail: newUser.verifiedEmail,
-    },
+    user: { ...profileData },
   });
 });
 

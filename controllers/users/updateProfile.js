@@ -1,6 +1,6 @@
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
-const { cloudinary, HttpError } = require('../../utils');
+const { cloudinary, HttpError, filterEmptyValue } = require('../../utils');
 
 const updateProfile = ctrlWrapper(async (req, res) => {
   const { name, birthday, phone, skype } = req.body;
@@ -18,14 +18,9 @@ const updateProfile = ctrlWrapper(async (req, res) => {
     const newUser = await User.findByIdAndUpdate(_id, avatar);
     if (!newUser) throw HttpError(404);
   }
-
-  // Update user data
   const profileData = { name, birthday, phone, skype };
-  for (const key in profileData) {
-    if (!profileData[key] || profileData[key] === '') {
-      delete profileData[key];
-    }
-  }
+  filterEmptyValue(profileData);
+  // Update user data
   const newUser = await User.findByIdAndUpdate(_id, profileData, { new: true });
   if (!newUser) throw HttpError(404);
 

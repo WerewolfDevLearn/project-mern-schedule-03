@@ -6,6 +6,7 @@ const sendEmail = require('./sendEmail');
 const joiError = require('./joiError');
 const renderEjsTemplate = require('./renderEjsTemplate');
 const formatDate = require('./formatDate');
+const filterEmptyValue = require('./filterEmptyValue');
 const { PRIORITY_ENUM, CATEGORY_ENUM } = require('./enum');
 
 module.exports = {
@@ -17,6 +18,7 @@ module.exports = {
   joiError,
   renderEjsTemplate,
   formatDate,
+  filterEmptyValue,
   PRIORITY_ENUM,
   CATEGORY_ENUM,
 };
