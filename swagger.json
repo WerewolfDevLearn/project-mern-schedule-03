@@ -1092,7 +1092,7 @@
             "example": "live:user"
           },
           "verificationCode": {
-            "type": "boolean",
+            "type": "string",
             "description": "User's verificationCode",
             "example": "qwertyuiop"
           },
