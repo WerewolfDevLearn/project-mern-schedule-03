@@ -14,7 +14,7 @@ const deleteCurrent = ctrlWrapper(async (req, res) => {
   const delUser = await User.findByIdAndDelete(_id);
   if (!delUser) throw HttpError(404);
 
-  res.status(200).json({ message: `User ${delUser.email} deleted!`, tasks: deletedCount });
+  res.status(200).json({ message: `User ${delUser.email} deleted!`, deletedTasks: deletedCount });
 });
 
 module.exports = deleteCurrent;
