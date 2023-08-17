@@ -5,6 +5,8 @@ const refresh = require('./refresh');
 const getCurrent = require('./getCurrent');
 const deleteCurrent = require('./deleteCurrent');
 const updateProfile = require('./updateProfile');
+const updatePassword = require('./updatePassword');
+const updateEmail = require('./updateEmail');
 const verifyEmail = require('./verifyEmail');
 
 module.exports = {
@@ -15,5 +17,7 @@ module.exports = {
   getCurrent,
   deleteCurrent,
   updateProfile,
+  updatePassword,
+  updateEmail,
   verifyEmail,
 };

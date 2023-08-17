@@ -23,6 +23,21 @@ const updateProfileShema = Joi.object({
   avatarUrl: Joi.string().allow('').optional(),
 });
 
+const updatePassword = Joi.object({
+  password: Joi.string().min(6).required().error(joiError.password),
+  newPassword: Joi.string().min(6).required().error(joiError.password),
+  confirmPassword: Joi.any()
+    .equal(Joi.ref('newPassword'))
+    .required()
+    .label('Confirm password')
+    .error(joiError.password),
+  // .messages({ 'any.only': '{{#label}} does not match' }),
+});
+
+const updateEmail = Joi.object({
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
+});
+
 const verifyEmailSchema = Joi.object({
   verificationCode: Joi.string().required(),
 });
@@ -32,5 +47,7 @@ module.exports = {
   loginSchema,
   refreshSchema,
   updateProfileShema,
+  updatePassword,
+  updateEmail,
   verifyEmailSchema,
 };

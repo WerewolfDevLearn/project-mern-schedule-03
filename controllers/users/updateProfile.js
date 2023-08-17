@@ -1,5 +1,3 @@
-const bcrypt = require('bcryptjs');
-
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
 const { cloudinary, HttpError } = require('../../utils');
@@ -24,7 +22,9 @@ const updateProfile = ctrlWrapper(async (req, res) => {
   // Update user data
   const profileData = { name, birthday, phone, skype };
   for (const key in profileData) {
-    if (!profileData[key] || profileData[key] === '') delete profileData[key];
+    if (!profileData[key] || profileData[key] === '') {
+      delete profileData[key];
+    }
   }
   const newUser = await User.findByIdAndUpdate(_id, profileData, { new: true });
   if (!newUser) throw HttpError(404);

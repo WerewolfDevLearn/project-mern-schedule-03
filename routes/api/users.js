@@ -22,5 +22,7 @@ router.patch(
   validateBody(schemas.updateProfileShema),
   ctrl.updateProfile
 );
+router.patch('/password', authenticate, validateBody(schemas.updatePassword), ctrl.updatePassword);
+router.patch('/email', authenticate, validateBody(schemas.updateEmail), ctrl.updateEmail);
 
 module.exports = router;
