@@ -4,6 +4,8 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const User = require('../models/user');
+const { sendEmail, createMsg } = require('../utils');
+
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, BASE_URL } = process.env;
 
 const googleParams = {
@@ -20,6 +22,7 @@ const googleCallback = async (request, accessToken, refreshToken, profile, done)
     if (user) {
       return done(null, user);
     }
+    // Create user
     const password = await bcrypt.hash(crypto.randomUUID(), 10);
     const newUser = await User.create({
       name: displayName,
@@ -28,8 +31,9 @@ const googleCallback = async (request, accessToken, refreshToken, profile, done)
       verifiedEmail: verified,
       avatarUrl: picture,
     });
-
-    // Send email to change password
+    // Send avtocreate password notification
+    const msg = createMsg.changePassword(email);
+    await sendEmail.nodemailer(msg);
 
     return done(null, newUser);
   } catch (error) {
