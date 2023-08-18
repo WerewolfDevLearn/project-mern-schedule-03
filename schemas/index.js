@@ -6,20 +6,21 @@ const {
   loginSchema,
   refreshSchema,
   updateProfileShema,
+  updatePassword,
+  updateEmail,
   verifyEmailSchema,
-  sendVerificationEmailSchema,
 } = require('./user');
 
 module.exports = {
+  reveiwSchema,
+  updateReveiwSchema,
+  validTask,
+
   registerSchema,
   loginSchema,
   refreshSchema,
-
-  verifyEmailSchema,
-  reveiwSchema,
-  updateReveiwSchema,
-
   updateProfileShema,
-  validTask,
-  sendVerificationEmailSchema,
+  updatePassword,
+  updateEmail,
+  verifyEmailSchema,
 };

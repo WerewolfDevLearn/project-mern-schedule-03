@@ -17,21 +17,29 @@ const refreshSchema = Joi.object({ refreshToken: Joi.string().required() });
 
 const updateProfileShema = Joi.object({
   name: Joi.string().alphanum().min(4).required(),
-  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
-  password: Joi.string().min(6).allow('').optional(),
-  phone: Joi.string().allow(null).allow('').optional(),
   birthday: Joi.string().allow(null).allow('').optional(),
+  phone: Joi.string().allow(null).allow('').optional(),
   skype: Joi.string().allow(null).allow('').optional(),
-  verificationCode: Joi.string().allow('').optional(),
   avatarUrl: Joi.string().allow('').optional(),
+});
+
+const updatePassword = Joi.object({
+  password: Joi.string().min(6).required().error(joiError.password),
+  newPassword: Joi.string().min(6).required().error(joiError.password),
+  confirmPassword: Joi.any()
+    .equal(Joi.ref('newPassword'))
+    .required()
+    .label('Confirm password')
+    .error(joiError.password),
+  // .messages({ 'any.only': '{{#label}} does not match' }),
+});
+
+const updateEmail = Joi.object({
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
 });
 
 const verifyEmailSchema = Joi.object({
   verificationCode: Joi.string().required(),
-});
-
-const sendVerificationEmailSchema = Joi.object({
-  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
 });
 
 module.exports = {
@@ -39,6 +47,7 @@ module.exports = {
   loginSchema,
   refreshSchema,
   updateProfileShema,
+  updatePassword,
+  updateEmail,
   verifyEmailSchema,
-  sendVerificationEmailSchema,
 };
