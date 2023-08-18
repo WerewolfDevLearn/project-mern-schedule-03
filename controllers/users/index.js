@@ -1,3 +1,4 @@
+const authGoogle = require('./authGoogle');
 const register = require('./register');
 const login = require('./login');
 const logout = require('./logout');
@@ -10,6 +11,7 @@ const updateEmail = require('./updateEmail');
 const verifyEmail = require('./verifyEmail');
 
 module.exports = {
+  authGoogle,
   register,
   login,
   logout,

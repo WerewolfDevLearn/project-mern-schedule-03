@@ -3,11 +3,17 @@ const { Router } = require('express');
 const ctrl = require('../../controllers/users');
 const schemas = require('../../schemas');
 const { validateBody } = require('../../decorators');
-const { authenticate, upload } = require('../../middlewares');
+const { authenticate, passport, upload } = require('../../middlewares');
 
 const router = Router();
 const uploadAvatar = upload.single('avatar');
 
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { session: false }),
+  ctrl.authGoogle
+);
 router.post('/register', validateBody(schemas.registerSchema), ctrl.register);
 router.post('/verify', validateBody(schemas.verifyEmailSchema), ctrl.verifyEmail);
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
