@@ -19,7 +19,7 @@ const userSchema = new Schema(
     avatarUrl: { type: String, default: '' },
     avatarId: { type: String, default: null },
     verifiedEmail: { type: Boolean, default: false, required },
-    verificationCode: { type: String, default: null, required },
+    verificationCode: { type: String, default: null },
   },
   { versionKey: false, timestamps: true }
 );

@@ -18,7 +18,7 @@ const updatePassword = ctrlWrapper(async (req, res) => {
   const newUser = await User.findByIdAndUpdate(req.user._id, { password: hashPassword });
   if (!newUser) throw HttpError(404);
 
-  res.status(200).json({ message: 'Password updated successfully.' });
+  res.status(200).json({ message: 'Password updated.' });
 });
 
 module.exports = updatePassword;

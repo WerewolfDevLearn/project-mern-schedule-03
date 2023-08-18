@@ -26,7 +26,7 @@ const updateProfile = ctrlWrapper(async (req, res) => {
 
   res
     .status(200)
-    .json({ message: 'Profile updated successfully.', user: { _id, ...profileData, avatarUrl } });
+    .json({ message: 'Profile updated.', user: { _id, ...profileData, avatarUrl } });
 });
 
 module.exports = updateProfile;

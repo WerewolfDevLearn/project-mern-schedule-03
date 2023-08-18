@@ -24,9 +24,6 @@ const register = ctrlWrapper(async (req, res) => {
   });
   if (!newUser) throw HttpError(404);
 
-  const { _id, phone, skype, birthday, avatarUrl, verifiedEmail } = newUser;
-  const profileData = { _id, name, email, birthday, phone, skype, avatarUrl, verifiedEmail };
-
-  res.status(201).json({ user: { ...profileData } });
+  res.status(201).json({ message: 'Registred.' });
 });
 module.exports = register;

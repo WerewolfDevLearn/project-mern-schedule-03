@@ -36,15 +36,9 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   );
   if (!newUser) throw HttpError(404);
 
-  const { _id, name, email, phone, skype, birthday, avatarUrl, verifiedEmail } = newUser;
-  const profileData = { _id, name, email, birthday, phone, skype, avatarUrl, verifiedEmail };
-
-  res.status(200).json({
-    message: `Email ${user.email} verified successfully.`,
-    token,
-    refreshToken,
-    user: { ...profileData },
-  });
+  res
+    .status(200)
+    .json({ message: `Email ${user.email} verified successfully.`, token, refreshToken });
 });
 
 module.exports = verifyEmail;

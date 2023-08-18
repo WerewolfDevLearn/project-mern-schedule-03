@@ -4,6 +4,7 @@ const errorMessages = {
   403: 'Forbidden',
   404: 'Not Found',
   409: 'Conflict',
+  422: 'Unprocessable Entity',
 };
 
 const HttpError = (status, message = errorMessages[status]) => {

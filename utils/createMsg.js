@@ -19,4 +19,18 @@ const verifyEmail = (to, verificationCode) => {
   };
 };
 
-module.exports = { verifyEmail };
+// Change ppassword message
+const changePassword = to => {
+  const file = path.join(__dirname, '..', 'views', 'autoPassword.ejs');
+  const html = renderEjsTemplate(file, { APP_NAME, to });
+
+  return {
+    from: `"Support" <${UKR_NET_EMAIL}>`,
+    to,
+    subject: `${APP_NAME} Notification`,
+    text: convert(html),
+    html,
+  };
+};
+
+module.exports = { verifyEmail, changePassword };
