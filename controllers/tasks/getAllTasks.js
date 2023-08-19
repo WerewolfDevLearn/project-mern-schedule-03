@@ -6,10 +6,6 @@ const getAllTasks = async (req, res) => {
   const { year, month, day } = req.query;
   const owner = req.user?._id;
 
-  if (month > 12 || month <= 1) {
-    throw HttpError(400, 'Wrong month. Min - 1, max - 12');
-  }
-
   if (!owner) {
     throw HttpError(400, 'Missing owner');
   }
