@@ -14,7 +14,6 @@ const updatePassword = ctrlWrapper(async (req, res) => {
     throw HttpError(401);
   }
   const hashPassword = await bcrypt.hash(newPassword, 10);
-  console.log('hashPassword: ', hashPassword);
   const newUser = await User.findByIdAndUpdate(req.user._id, { password: hashPassword });
   if (!newUser) throw HttpError(404);
 

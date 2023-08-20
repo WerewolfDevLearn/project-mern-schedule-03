@@ -6,7 +6,6 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 
 const verifyEmail = ctrlWrapper(async (req, res) => {
   const { verificationCode } = req.body;
-  console.log(verificationCode);
   // Find user
   const userArr = await User.find({
     verificationCode: { $regex: `${verificationCode}`, $options: 'i' },
@@ -26,7 +25,7 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   }
   // Allow access
   const payload = { id: user._id };
-  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '10h' });
+  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '1m' });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
 
   const newUser = await User.findByIdAndUpdate(
