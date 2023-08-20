@@ -24,7 +24,6 @@ const updateProfileShema = Joi.object({
 });
 
 const updatePassword = Joi.object({
-  password: Joi.string().min(6).required().error(joiError.password),
   newPassword: Joi.string().min(6).required().error(joiError.password),
   confirmPassword: Joi.any()
     .equal(Joi.ref('newPassword'))
