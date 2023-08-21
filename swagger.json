@@ -50,18 +50,18 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden request",
+          "404": {
+            "description": "Not found",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ForbiddenResponse"
+                  "$ref": "#/components/schemas/NotFoundResponse"
                 }
               }
             }
           },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Provided email or name already exists",
             "content": {
               "application/json": {
                 "schema": {
@@ -1096,8 +1096,9 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "message": {
+            "type": "string",
+            "example": "Registred"
           }
         }
       },
@@ -1454,7 +1455,8 @@
           "type": "object",
           "properties": {
             "message": {
-              "type": "string"
+              "type": "string",
+              "message": "Not found"
             }
           }
         },
