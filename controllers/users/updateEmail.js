@@ -18,7 +18,7 @@ const updateEmail = ctrlWrapper(async (req, res) => {
   const newUser = await User.findByIdAndUpdate(_id, {
     verificationCode: `${verificationCode} ${email}`,
   });
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to update email.');
 
   res.status(200).json({ message: `Action Required: Verify ${email}` });
 });

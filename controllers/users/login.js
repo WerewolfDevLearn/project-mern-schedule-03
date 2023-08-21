@@ -23,7 +23,7 @@ const login = ctrlWrapper(async (req, res) => {
   const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '1m' });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
   const newUser = await User.findByIdAndUpdate(user._id, { token, refreshToken }, { new: true });
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to log in.');
 
   res.status(200).json({ message: 'Logged in.', token, refreshToken });
 });

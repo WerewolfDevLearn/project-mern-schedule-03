@@ -25,7 +25,7 @@ const resetPassword = ctrlWrapper(async (req, res) => {
 
   const hashPassword = await bcrypt.hash(newPassword, 10);
   const newUser = await User.findByIdAndUpdate(_id, { password: hashPassword });
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to reset password.');
 
   res.status(200).json({ message: 'Password reset.' });
 });

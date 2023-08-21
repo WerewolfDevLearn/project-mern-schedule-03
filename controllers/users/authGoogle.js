@@ -9,7 +9,7 @@ const authGoogle = async (req, res) => {
   const token = jwt.sign({ id }, ACCESS_SECRET_KEY, { expiresIn: '1m' });
   const refreshToken = jwt.sign({ id }, REFRESH_SECRET_KEY, { expiresIn: '1d' });
   const newUser = await User.findByIdAndUpdate(id, { token, refreshToken });
-  if (!newUser) throw HttpError;
+  if (!newUser) throw HttpError(500, 'Failed to log in.');
 
   res.redirect(`${FRONTEND_URL}/login/google?token=${token}&refreshToken=${refreshToken}`);
 };

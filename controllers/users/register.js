@@ -22,7 +22,7 @@ const register = ctrlWrapper(async (req, res) => {
     password: hashPassword,
     verificationCode,
   });
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to register.');
 
   res.status(201).json({ message: 'Registred.' });
 });

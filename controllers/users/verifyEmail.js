@@ -33,7 +33,7 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
     { verifiedEmail: true, verificationCode: null, token, refreshToken },
     { new: true }
   );
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to verify email.');
 
   res
     .status(200)

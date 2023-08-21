@@ -16,17 +16,15 @@ const updateProfile = ctrlWrapper(async (req, res) => {
 
     const avatar = { avatarUrl: url, avatarId: public_id };
     const newUser = await User.findByIdAndUpdate(_id, avatar);
-    if (!newUser) throw HttpError(422);
+    if (!newUser) throw HttpError(500, 'Failed to update avatar.');
   }
   const profileData = { name, birthday, phone, skype };
   filterEmptyValue(profileData);
   // Update user data
   const newUser = await User.findByIdAndUpdate(_id, profileData, { new: true });
-  if (!newUser) throw HttpError(422);
+  if (!newUser) throw HttpError(500, 'Failed to update user profile.');
 
-  res
-    .status(200)
-    .json({ message: 'Profile updated.', user: { _id, ...profileData, avatarUrl } });
+  res.status(200).json({ message: 'Profile updated.', user: { _id, ...profileData, avatarUrl } });
 });
 
 module.exports = updateProfile;
