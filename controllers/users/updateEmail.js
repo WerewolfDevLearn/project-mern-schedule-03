@@ -2,7 +2,7 @@ const crypto = require('crypto');
 
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
-const { HttpError, sendEmail, createMsg } = require('../../utils');
+const { HttpError, sendEmail, createMsg, cutUUID } = require('../../utils');
 
 const updateEmail = ctrlWrapper(async (req, res) => {
   const { _id } = req.user;
@@ -11,7 +11,7 @@ const updateEmail = ctrlWrapper(async (req, res) => {
   const user = await User.findById(_id);
   if (!user) throw HttpError(422);
 
-  const verificationCode = crypto.randomUUID();
+  const verificationCode = cutUUID(crypto.randomUUID());
   const msg = createMsg.verifyEmail(email, verificationCode);
   await sendEmail.nodemailer(msg);
 
