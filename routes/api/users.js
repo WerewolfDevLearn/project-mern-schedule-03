@@ -30,9 +30,14 @@ router.patch(
   validateBody(schemas.updateProfileShema),
   ctrl.updateProfile
 );
-router.patch('/password', authenticate, validateBody(schemas.updatePassword), ctrl.updatePassword);
-router.patch('/email', authenticate, validateBody(schemas.updateEmail), ctrl.updateEmail);
-router.post('/forgot', validateBody(schemas.forgotPassword), ctrl.forgotPassword);
-router.post('/reset', validateBody(schemas.forgotPassword), ctrl.forgotPassword);
+router.patch(
+  '/password',
+  authenticate,
+  validateBody(schemas.updatePasswordSchema),
+  ctrl.updatePassword
+);
+router.patch('/email', authenticate, validateBody(schemas.updateEmailSchema), ctrl.updateEmail);
+router.post('/forgot', validateBody(schemas.forgotPasswordSchema), ctrl.forgotPassword);
+router.post('/reset/:id/:token', validateBody(schemas.updatePasswordSchema), ctrl.resetPassword);
 
 module.exports = router;

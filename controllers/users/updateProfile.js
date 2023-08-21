@@ -16,13 +16,13 @@ const updateProfile = ctrlWrapper(async (req, res) => {
 
     const avatar = { avatarUrl: url, avatarId: public_id };
     const newUser = await User.findByIdAndUpdate(_id, avatar);
-    if (!newUser) throw HttpError(404);
+    if (!newUser) throw HttpError(422);
   }
   const profileData = { name, birthday, phone, skype };
   filterEmptyValue(profileData);
   // Update user data
   const newUser = await User.findByIdAndUpdate(_id, profileData, { new: true });
-  if (!newUser) throw HttpError(404);
+  if (!newUser) throw HttpError(422);
 
   res
     .status(200)

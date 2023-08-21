@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../../models/user');
@@ -12,11 +11,11 @@ const forgotPassword = ctrlWrapper(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) throw HttpError(422);
 
-  const payload = { email: user.email, id: user._id };
-  const sectret = ACCESS_SECRET_KEY + user.password;
-  const token = jwt.sign(payload, sectret, { expiresIn: '10m' });
+  const payload = { id: user._id };
+  const secret = ACCESS_SECRET_KEY + user.password;
+  const pwdToken = jwt.sign(payload, secret, { expiresIn: '10m' });
 
-  const link = `${BASE_URL}/reset/${user._id}/${token}`;
+  const link = `${BASE_URL}/api/users/reset/${user._id}/${pwdToken}`;
   const msg = createMsg.forgotPassword(email, link);
   await sendEmail.nodemailer(msg);
 

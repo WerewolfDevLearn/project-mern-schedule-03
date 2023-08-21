@@ -33,11 +33,11 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
     { verifiedEmail: true, verificationCode: null, token, refreshToken },
     { new: true }
   );
-  if (!newUser) throw HttpError(404);
+  if (!newUser) throw HttpError(422);
 
   res
     .status(200)
-    .json({ message: `Email ${user.email} verified successfully.`, token, refreshToken });
+    .json({ message: `Email ${newUser.email} verified successfully.`, token, refreshToken });
 });
 
 module.exports = verifyEmail;

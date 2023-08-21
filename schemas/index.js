@@ -6,10 +6,10 @@ const {
   loginSchema,
   refreshSchema,
   updateProfileShema,
-  updatePassword,
-  updateEmail,
+  updatePasswordSchema,
+  updateEmailSchema,
   verifyEmailSchema,
-  forgotPassword,
+  forgotPasswordSchema,
 } = require('./user');
 
 module.exports = {
@@ -21,8 +21,8 @@ module.exports = {
   loginSchema,
   refreshSchema,
   updateProfileShema,
-  updatePassword,
-  updateEmail,
+  updatePasswordSchema,
+  updateEmailSchema,
   verifyEmailSchema,
-  forgotPassword,
+  forgotPasswordSchema,
 };
