@@ -17,10 +17,10 @@ const forgotPassword = ctrlWrapper(async (req, res) => {
   const token = jwt.sign(payload, sectret, { expiresIn: '10m' });
 
   const link = `${BASE_URL}/reset/${user._id}/${token}`;
+  const msg = createMsg.forgotPassword(email, link);
+  await sendEmail.nodemailer(msg);
 
-  // Send link via email
-
-  res.status(200).json({ message: 'Email sent', link });
+  res.status(200).json({ message: `Email to ${user.email} sent.` });
 });
 
 module.exports = forgotPassword;
