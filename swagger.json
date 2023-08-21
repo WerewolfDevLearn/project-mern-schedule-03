@@ -69,6 +69,16 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Failed to register user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -95,13 +105,37 @@
             }
           },
           "400": {
-            "description": "Bad request (invalid request body)"
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorised"
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
           },
           "409": {
             "description": "Provided email already exists"
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -117,6 +151,26 @@
             "description": "Successful operations",
             "content": {
               "application/json": { "type": "string", "example": "Logged out" }
+            }
+          },
+          "401": {
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
             }
           }
         }
@@ -138,7 +192,24 @@
             }
           },
           "401": {
-            "description": "Unauthorised"
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       },
@@ -159,8 +230,35 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
           "404": {
-            "description": "User not found"
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -182,19 +280,49 @@
             "description": "Successful operations",
             "content": {
               "application/json": {
-                "type": "string",
-                "example": "Email user@mail.com verified successfully."
+                "schema": { "$ref": "#/components/schemas/VerifyResponse" }
               }
             }
           },
           "400": {
-            "description": "Email already verified"
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorised"
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -209,8 +337,48 @@
           "description": "Object for update user's profile",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": { "$ref": "#/components/schemas/UpdateProfileRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/UpdateProfileResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
             }
           }
         }
@@ -279,16 +447,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UnauthorizedResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenResponse"
                 }
               }
             }
@@ -1033,16 +1191,6 @@
             "description": "User's avatar",
             "example": "www.avatar.com/avatar/12345678"
           },
-          "_id": {
-            "type": "string",
-            "description": "User's ID",
-            "example": "12345678"
-          },
-          "verifiedEmail": {
-            "type": "boolean",
-            "description": "User's email is verifyed",
-            "example": "www.avatar.com/avatar/12345678"
-          },
           "skype": {
             "type": "string",
             "description": "User's skype account",
@@ -1060,11 +1208,9 @@
       },
       "UpdateProfileRequest": {
         "type": "object",
-        "required": ["email", "name"],
+        "required": ["name"],
         "properties": {
           "name": { "type": "string", "description": "User's name", "format": "User" },
-          "email": { "type": "string", "description": "User's email", "format": "email" },
-          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
           "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
           "birthday": {
             "type": "string",
@@ -1076,20 +1222,66 @@
             "description": "User's skype account",
             "example": "live:user"
           },
-          "verificationCode": {
-            "type": "boolean",
-            "description": "User's verificationCode",
-            "example": "qwertyuiop"
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar url",
+            "format": "base64"
+          }
+        }
+      },
+      "UpdateProfileResponse": {
+        "type": "object",
+        "properties": {
+          "massage": {
+            "type": "string",
+            "description": "Successful mesage",
+            "example": "Profile updated."
+          },
+          "name": { "type": "string", "description": "User's name", "example": "User" },
+          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday",
+            "example": "Birthday"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          },
+          "avatarUrl": {
+            "type": "string",
+            "description": "User's avatar url",
+            "example": "https://avatar.com"
           }
         }
       },
       "VerifyEmailRequest": {
         "type": "object",
         "properties": {
-          "password": {
+          "verificationCode": {
             "type": "string",
             "description": "Verification emailr password",
-            "example": "qwerty"
+            "example": "qwerty1111111"
+          }
+        }
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email user@email.com verified successfully."
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "12345678901112"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "User's refreshToken",
+            "example": "12345678901112"
           }
         }
       },
@@ -1105,24 +1297,25 @@
       "LoginResponse": {
         "type": "object",
         "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logged in."
+          },
           "token": {
             "type": "string",
             "description": "User's token",
             "example": "12345678901112"
           },
-          "user": {
-            "$ref": "#/components/schemas/User"
+          "refreshToken": {
+            "type": "string",
+            "description": "User's refreshToken",
+            "example": "12345678901112"
           }
         }
       },
       "GetCurrentUserResponse": {
         "type": "object",
         "properties": {
-          "token": {
-            "type": "string",
-            "description": "User's token",
-            "example": "12345678901112"
-          },
           "user": { "$ref": "#/components/schemas/CurrentUser" }
         }
       },
