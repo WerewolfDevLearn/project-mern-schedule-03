@@ -1304,7 +1304,20 @@
             "example": "in-progress"
           },
           "owner": {
-            "type": "string"
+            "type": "string",
+            "description": "User which created task",
+            "example": "29283758"
+          },
+          "_id": { "type": "string", "description": "Task's id", "example": "11923829147" },
+          "createdAt": {
+            "type": "string",
+            "description": "Task's created time",
+            "example": "2023-08-21T20:25:17.862Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Task's updated time",
+            "example": "2023-08-21T20:25:17.862Z"
           }
         }
       },
