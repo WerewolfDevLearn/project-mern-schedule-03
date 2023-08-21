@@ -1816,8 +1816,28 @@
             "type": "string",
             "example": "Review added successfully"
           },
-          "task": {
-            "$ref": "#/components/schemas/Review"
+          "review": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string", "description": "Review's id", "example": "11923829147" },
+              "rating": { "type": "integer", "example": 0 },
+              "comment": { "type": "string", "example": "Some text of review" },
+              "owner": {
+                "type": "string",
+                "description": "User which created review",
+                "example": "29283758"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Review's created time",
+                "example": "2023-08-21T20:25:17.862Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Review's updated time",
+                "example": "2023-08-21T20:25:17.862Z"
+              }
+            }
           }
         }
       },
@@ -1828,8 +1848,28 @@
             "type": "string",
             "example": "Review edited successfully"
           },
-          "task": {
-            "$ref": "#/components/schemas/Review"
+          "review": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string", "description": "Review's id", "example": "11923829147" },
+              "rating": { "type": "integer", "example": 0 },
+              "comment": { "type": "string", "example": "Some text of review" },
+              "owner": {
+                "type": "string",
+                "description": "User which created review",
+                "example": "29283758"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Review's created time",
+                "example": "2023-08-21T20:25:17.862Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Review's updated time",
+                "example": "2023-08-21T20:25:17.862Z"
+              }
+            }
           }
         }
       },
