@@ -9,7 +9,7 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 const login = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user) throw HttpError(401);
+  if (!user) throw HttpError(422);
   if (!user.verifiedEmail) {
     const msg = createMsg.verifyEmail(email, user.verificationCode);
     await sendEmail.nodemailer(msg);
@@ -17,7 +17,7 @@ const login = ctrlWrapper(async (req, res) => {
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw HttpError(401);
+    throw HttpError(422);
   }
   const payload = { id: user._id };
   const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '1m' });

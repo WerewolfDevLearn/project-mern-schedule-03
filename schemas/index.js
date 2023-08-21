@@ -9,6 +9,7 @@ const {
   updatePassword,
   updateEmail,
   verifyEmailSchema,
+  forgotPassword,
 } = require('./user');
 
 module.exports = {
@@ -23,4 +24,5 @@ module.exports = {
   updatePassword,
   updateEmail,
   verifyEmailSchema,
+  forgotPassword,
 };

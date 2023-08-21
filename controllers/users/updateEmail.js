@@ -9,7 +9,7 @@ const updateEmail = ctrlWrapper(async (req, res) => {
   const { email } = req.body;
 
   const user = await User.findById(_id);
-  if (!user) throw HttpError(401);
+  if (!user) throw HttpError(422);
 
   const verificationCode = crypto.randomUUID();
   const msg = createMsg.verifyEmail(email, verificationCode);

@@ -41,6 +41,10 @@ const verifyEmailSchema = Joi.object({
   verificationCode: Joi.string().required(),
 });
 
+const forgotPassword = Joi.object({
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -49,4 +53,5 @@ module.exports = {
   updatePassword,
   updateEmail,
   verifyEmailSchema,
+  forgotPassword,
 };
