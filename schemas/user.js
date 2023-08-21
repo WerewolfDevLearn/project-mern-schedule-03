@@ -23,7 +23,7 @@ const updateProfileShema = Joi.object({
   avatarUrl: Joi.string().allow('').optional(),
 });
 
-const updatePassword = Joi.object({
+const updatePasswordSchema = Joi.object({
   newPassword: Joi.string().min(6).required().error(joiError.password),
   confirmPassword: Joi.any()
     .equal(Joi.ref('newPassword'))
@@ -33,7 +33,7 @@ const updatePassword = Joi.object({
   // .messages({ 'any.only': '{{#label}} does not match' }),
 });
 
-const updateEmail = Joi.object({
+const updateEmailSchema = Joi.object({
   email: Joi.string().pattern(regExp.email).required().error(joiError.email),
 });
 
@@ -41,12 +41,30 @@ const verifyEmailSchema = Joi.object({
   verificationCode: Joi.string().required(),
 });
 
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().pattern(regExp.email).required().error(joiError.email),
+});
+
+const resetPasswordSchema = Joi.object({
+  id: Joi.string().required(),
+  pwdToken: Joi.string().required(),
+  newPassword: Joi.string().min(6).required().error(joiError.password),
+  confirmPassword: Joi.any()
+    .equal(Joi.ref('newPassword'))
+    .required()
+    .label('Confirm password')
+    .error(joiError.password),
+  // .messages({ 'any.only': '{{#label}} does not match' }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
   refreshSchema,
   updateProfileShema,
-  updatePassword,
-  updateEmail,
+  updatePasswordSchema,
+  updateEmailSchema,
   verifyEmailSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
 };

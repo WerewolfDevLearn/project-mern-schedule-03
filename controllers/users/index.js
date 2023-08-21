@@ -9,6 +9,8 @@ const updateProfile = require('./updateProfile');
 const updatePassword = require('./updatePassword');
 const updateEmail = require('./updateEmail');
 const verifyEmail = require('./verifyEmail');
+const forgotPassword = require('./forgotPassword');
+const resetPassword = require('./resetPassword');
 
 module.exports = {
   authGoogle,
@@ -22,4 +24,6 @@ module.exports = {
   updatePassword,
   updateEmail,
   verifyEmail,
+  forgotPassword,
+  resetPassword,
 };

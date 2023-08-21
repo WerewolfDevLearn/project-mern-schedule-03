@@ -3,17 +3,15 @@ const crypto = require('crypto');
 
 const User = require('../../models/user');
 const { ctrlWrapper } = require('../../decorators');
-const { HttpError, sendEmail, createMsg } = require('../../utils');
+const { HttpError, sendEmail, createMsg, cutUUID } = require('../../utils');
 
 const register = ctrlWrapper(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { email, password } = req.body;
 
-  if (await User.findOne({ name })) throw HttpError(409);
   if (await User.findOne({ email })) throw HttpError(409);
 
   const hashPassword = await bcrypt.hash(password, 10);
-
-  const verificationCode = crypto.randomUUID();
+  const verificationCode = cutUUID(crypto.randomUUID());
   const msg = createMsg.verifyEmail(email, verificationCode);
   await sendEmail.nodemailer(msg);
 
@@ -22,7 +20,7 @@ const register = ctrlWrapper(async (req, res) => {
     password: hashPassword,
     verificationCode,
   });
-  if (!newUser) throw HttpError(404);
+  if (!newUser) throw HttpError(500, 'Failed to register.');
 
   res.status(201).json({ message: 'Registred.' });
 });

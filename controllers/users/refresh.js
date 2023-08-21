@@ -21,7 +21,7 @@ const refresh = ctrlWrapper(async (req, res, next) => {
       { token: accessToken, refreshToken },
       { new: true }
     );
-    if (!newUser) throw HttpError(404);
+    if (!newUser) throw HttpError(500, 'Please log in.');
 
     res.status(200).json({ token: accessToken, refreshToken });
   } catch {

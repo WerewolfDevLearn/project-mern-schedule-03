@@ -33,4 +33,18 @@ const changePassword = to => {
   };
 };
 
-module.exports = { verifyEmail, changePassword };
+// Forgot ppassword message
+const forgotPassword = (to, link) => {
+  const file = path.join(__dirname, '..', 'views', 'forgotPassword.ejs');
+  const html = renderEjsTemplate(file, { APP_NAME, link });
+
+  return {
+    from: `"Support" <${UKR_NET_EMAIL}>`,
+    to,
+    subject: `${APP_NAME} Notification`,
+    text: convert(html),
+    html,
+  };
+};
+
+module.exports = { verifyEmail, changePassword, forgotPassword };

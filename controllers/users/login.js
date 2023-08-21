@@ -9,7 +9,7 @@ const { ACCESS_SECRET_KEY, REFRESH_SECRET_KEY } = process.env;
 const login = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user) throw HttpError(401);
+  if (!user) throw HttpError(422);
   if (!user.verifiedEmail) {
     const msg = createMsg.verifyEmail(email, user.verificationCode);
     await sendEmail.nodemailer(msg);
@@ -23,7 +23,7 @@ const login = ctrlWrapper(async (req, res) => {
   const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '1m' });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
   const newUser = await User.findByIdAndUpdate(user._id, { token, refreshToken }, { new: true });
-  if (!newUser) throw HttpError(404);
+  if (!newUser) throw HttpError(500, 'Failed to log in.');
 
   res.status(200).json({ message: 'Logged in.', token, refreshToken });
 });
