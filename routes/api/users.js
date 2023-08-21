@@ -38,6 +38,6 @@ router.patch(
 );
 router.patch('/email', authenticate, validateBody(schemas.updateEmailSchema), ctrl.updateEmail);
 router.post('/forgot', validateBody(schemas.forgotPasswordSchema), ctrl.forgotPassword);
-router.post('/reset/:id/:token', validateBody(schemas.updatePasswordSchema), ctrl.resetPassword);
+router.post('/reset', validateBody(schemas.resetPasswordSchema), ctrl.resetPassword);
 
 module.exports = router;

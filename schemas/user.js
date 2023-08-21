@@ -45,6 +45,18 @@ const forgotPasswordSchema = Joi.object({
   email: Joi.string().pattern(regExp.email).required().error(joiError.email),
 });
 
+const resetPasswordSchema = Joi.object({
+  id: Joi.string().required(),
+  pwdToken: Joi.string().required(),
+  newPassword: Joi.string().min(6).required().error(joiError.password),
+  confirmPassword: Joi.any()
+    .equal(Joi.ref('newPassword'))
+    .required()
+    .label('Confirm password')
+    .error(joiError.password),
+  // .messages({ 'any.only': '{{#label}} does not match' }),
+});
+
 module.exports = {
   registerSchema,
   loginSchema,
@@ -54,4 +66,5 @@ module.exports = {
   updateEmailSchema,
   verifyEmailSchema,
   forgotPasswordSchema,
+  resetPasswordSchema,
 };
