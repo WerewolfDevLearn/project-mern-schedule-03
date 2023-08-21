@@ -150,7 +150,11 @@
           "200": {
             "description": "Successful operations",
             "content": {
-              "application/json": { "type": "string", "example": "Logged out" }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
             }
           },
           "401": {
@@ -159,6 +163,70 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failed to log in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/verify": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyEmailRequest" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/VerifyResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorised",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundResponse"
                 }
               }
             }
@@ -232,70 +300,6 @@
           },
           "401": {
             "description": "Unauthorized user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotFoundResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Failed to log in user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ServerResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/verify": {
-      "post": {
-        "tags": ["Users"],
-        "summary": "User registration",
-        "parameters": [],
-        "requestBody": {
-          "description": "Registration's object",
-          "required": true,
-          "content": {
-            "application/json": { "schema": { "$ref": "#/components/schemas/VerifyEmailRequest" } }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operations",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/VerifyResponse" }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BadRequestResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorised",
             "content": {
               "application/json": {
                 "schema": {
@@ -1300,7 +1304,20 @@
             "example": "in-progress"
           },
           "owner": {
-            "type": "string"
+            "type": "string",
+            "description": "User which created task",
+            "example": "29283758"
+          },
+          "_id": { "type": "string", "description": "Task's id", "example": "11923829147" },
+          "createdAt": {
+            "type": "string",
+            "description": "Task's created time",
+            "example": "2023-08-21T20:25:17.862Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Task's updated time",
+            "example": "2023-08-21T20:25:17.862Z"
           }
         }
       },
@@ -1334,20 +1351,21 @@
           "name": { "type": "string", "description": "User's name", "example": "Name" },
           "email": { "type": "string", "description": "User's email", "format": "email" },
           "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "skype": {
+            "type": "string",
+            "description": "User's skype account",
+            "example": "live:user"
+          },
           "birthday": {
             "type": "string",
             "description": "User's birthday",
             "example": "Birthday"
           },
+
           "avatarUrl": {
             "type": "string",
             "description": "User's avatar",
             "example": "www.avatar.com/avatar/12345678"
-          },
-          "skype": {
-            "type": "string",
-            "description": "User's skype account",
-            "example": "live:user"
           }
         }
       },
@@ -1355,16 +1373,33 @@
         "type": "object",
         "required": ["email", "password"],
         "properties": {
-          "password": { "type": "string", "description": "User's password", "example": "qwerty" },
-          "email": { "type": "string", "description": "User's email", "format": "email" }
+          "email": { "type": "string", "description": "User's email", "format": "email" },
+          "password": { "type": "string", "description": "User's password", "example": "qwerty" }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logged out."
+          }
         }
       },
       "UpdateProfileRequest": {
         "type": "object",
         "required": ["name"],
         "properties": {
-          "name": { "type": "string", "description": "User's name", "format": "User" },
-          "phone": { "type": "string", "description": "User's phone", "example": "Phone" },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "format": "User"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone",
+            "example": "Phone"
+          },
           "birthday": {
             "type": "string",
             "description": "User's birthday",
@@ -1377,7 +1412,6 @@
           },
           "avatarUrl": {
             "type": "string",
-            "description": "User's avatar url",
             "format": "base64"
           }
         }
@@ -1782,8 +1816,28 @@
             "type": "string",
             "example": "Review added successfully"
           },
-          "task": {
-            "$ref": "#/components/schemas/Review"
+          "review": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string", "description": "Review's id", "example": "11923829147" },
+              "rating": { "type": "integer", "example": 0 },
+              "comment": { "type": "string", "example": "Some text of review" },
+              "owner": {
+                "type": "string",
+                "description": "User which created review",
+                "example": "29283758"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Review's created time",
+                "example": "2023-08-21T20:25:17.862Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Review's updated time",
+                "example": "2023-08-21T20:25:17.862Z"
+              }
+            }
           }
         }
       },
@@ -1794,8 +1848,28 @@
             "type": "string",
             "example": "Review edited successfully"
           },
-          "task": {
-            "$ref": "#/components/schemas/Review"
+          "review": {
+            "type": "object",
+            "properties": {
+              "_id": { "type": "string", "description": "Review's id", "example": "11923829147" },
+              "rating": { "type": "integer", "example": 0 },
+              "comment": { "type": "string", "example": "Some text of review" },
+              "owner": {
+                "type": "string",
+                "description": "User which created review",
+                "example": "29283758"
+              },
+              "createdAt": {
+                "type": "string",
+                "description": "Review's created time",
+                "example": "2023-08-21T20:25:17.862Z"
+              },
+              "updatedAt": {
+                "type": "string",
+                "description": "Review's updated time",
+                "example": "2023-08-21T20:25:17.862Z"
+              }
+            }
           }
         }
       },
