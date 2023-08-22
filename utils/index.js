@@ -9,7 +9,7 @@ const renderEjsTemplate = require('./renderEjsTemplate');
 const formatDate = require('./formatDate');
 const filterEmptyValue = require('./filterEmptyValue');
 const cutUUID = require('./cutUUID');
-const { PRIORITY_ENUM, CATEGORY_ENUM } = require('./enum');
+const { PRIORITY_ENUM, CATEGORY_ENUM } = require('./constants');
 
 module.exports = {
   HttpError,
