@@ -14,7 +14,7 @@ const refresh = ctrlWrapper(async (req, res, next) => {
     if (!user || !user.refreshToken || user.refreshToken !== token) {
       next(HttpError(403));
     }
-    const accessToken = jwt.sign({ id }, ACCESS_SECRET_KEY, { expiresIn: '1m' });
+    const accessToken = jwt.sign({ id }, ACCESS_SECRET_KEY, { expiresIn: '1h' });
     const refreshToken = jwt.sign({ id }, REFRESH_SECRET_KEY, { expiresIn: '7d' });
     const newUser = await User.findByIdAndUpdate(
       user._id,
