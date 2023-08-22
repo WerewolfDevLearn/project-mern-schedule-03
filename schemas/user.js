@@ -13,7 +13,7 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const refreshSchema = Joi.object({ refreshToken: Joi.string().required() });
+const refreshSchema = Joi.object({ refreshToken: Joi.string().allow('').optional() }); // req.body do not attach refreshToken sometimes !!!
 
 const updateProfileShema = Joi.object({
   name: Joi.string().alphanum().min(4).required(),
@@ -29,8 +29,7 @@ const updatePasswordSchema = Joi.object({
     .equal(Joi.ref('newPassword'))
     .required()
     .label('Confirm password')
-    .error(joiError.password),
-  // .messages({ 'any.only': '{{#label}} does not match' }),
+    .error(joiError.password), // .messages({ 'any.only': '{{#label}} does not match' }),
 });
 
 const updateEmailSchema = Joi.object({
