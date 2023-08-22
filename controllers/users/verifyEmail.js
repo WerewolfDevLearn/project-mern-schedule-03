@@ -25,7 +25,7 @@ const verifyEmail = ctrlWrapper(async (req, res) => {
   }
   // Allow access
   const payload = { id: user._id };
-  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '1m' });
+  const token = jwt.sign(payload, ACCESS_SECRET_KEY, { expiresIn: '5h' });
   const refreshToken = jwt.sign(payload, REFRESH_SECRET_KEY, { expiresIn: '7d' });
 
   const newUser = await User.findByIdAndUpdate(

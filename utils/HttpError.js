@@ -15,6 +15,7 @@ const errorMessages = {
 const HttpError = (status, message = errorMessages[status]) => {
   const error = new Error(message);
   error.status = status;
+  console.log('error: ', error);
   return error;
 };
 

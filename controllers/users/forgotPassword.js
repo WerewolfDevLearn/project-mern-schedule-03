@@ -13,7 +13,7 @@ const forgotPassword = ctrlWrapper(async (req, res) => {
 
   const payload = { id: user._id };
   const secret = ACCESS_SECRET_KEY + user.password;
-  const pwdToken = jwt.sign(payload, secret, { expiresIn: '10m' });
+  const pwdToken = jwt.sign(payload, secret, { expiresIn: '5h' });
 
   const link = `${FRONTEND_URL}/reset?id=${user._id}&pwd_token=${pwdToken}`;
   const msg = createMsg.forgotPassword(email, link);
